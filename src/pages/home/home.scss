@@ -1,0 +1,32 @@
+.homePage{
+    overflow-y:auto; 
+    .home_slides{
+        width:26%;
+        height:100%;
+        background-color: rgb(246,246,246);
+        .menu_tab1{
+            height:46px;
+            line-height: 46px;           
+            padding-left: 8px;
+            padding-right: 8px;
+            text-align: center;
+        }
+        .activeTab{
+            background-color: #fff;
+        }
+    }
+    .home_content{
+        margin-left: 26%;
+        height: 100%;
+        .sub_module{
+            width:24%;
+            margin-left: 7%;
+            margin-top: 3%;
+            height:46px;
+            text-align: center;
+            border:1px solid  rgb(224,35,47);
+            border-radius: 5px;
+            line-height: 46px;
+        }
+    }
+}

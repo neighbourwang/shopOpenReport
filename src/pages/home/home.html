@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      创建新店报告
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="homePage">
+  <div class="home_slides left">
+    <div class="menu_tab1  wrap" [class.activeTab]="module.isActive" *ngFor="let module of moduleconfigList" (click)="tabClick(module)">{{module.displayName}}</div>
+  </div>
+  <div class="home_content">
+    <div class="sub_module left wrap" *ngFor="let submodule of subModulelist">{{submodule.displayName}} </div>
+  </div>
+</ion-content>
