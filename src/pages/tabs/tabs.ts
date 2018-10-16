@@ -7,7 +7,7 @@ import { SettingPage } from '../setting/setting';
     template: `
 
     <ion-tabs>
-      <ion-tab tabIcon="water" tabTitle="Water" [root]="tab1"></ion-tab>
+      <ion-tab tabIcon="home" tabTitle="Home" [root]="tab1"></ion-tab>
       <ion-tab tabIcon="leaf" tabTitle="Life" [root]="tab2"></ion-tab>
       <ion-tab tabIcon="flame" tabTitle="Fire" [root]="tab3"></ion-tab>
       <ion-tab tabIcon="magnet" tabTitle="Force" [root]="tab4"></ion-tab>

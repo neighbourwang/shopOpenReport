@@ -1,5 +1,5 @@
 export class ModuleConfigService {
-    moduleConfiglist=[
+    moduleConfiglist = [
         {
             "id": "01",
             "name": "title",
@@ -645,183 +645,184 @@ export class ModuleConfigService {
                             ]
                         }
                     ]
-                },
-                {
-                    "id": "10",
-                    "name": "functional acceptance",
-                    "displayName": "新店功能性验收",
-                    "display": true,
-                    "type": "text",
-                    "children": [
-                        {
-                            "id": "1001",
-                            "name": "POS cashier printer",
-                            "displayName": "每台POS的Ready打印单，收银机与打印机工作正常",
-                            "display": true,
-                            "type": "file"
-                        },
-                        {
-                            "id": "1002",
-                            "name": "sales report",
-                            "displayName": "Compris数据清零后，打印Sales Report",
-                            "display": true,
-                            "type": "file"
-                        },
-                        {
-                            "id": "1003",
-                            "name": "report cashier",
-                            "displayName": "POS交叉点餐纸带报表，对应位置正确出单，收银机、内外场打印机正常",
-                            "display": true,
-                            "type": "file"
-                        },
-                        {
-                            "id": "1004",
-                            "name": "print invoice test",
-                            "displayName": "打印外送测发票",
-                            "display": true,
-                            "type": "file"
-                        },
-                        {
-                            "id": "1005",
-                            "name": "shop number address telephone",
-                            "displayName": "餐条显示正确的门店编号、门店中文地址、门店电话",
-                            "display": true,
-                            "type": "file"
-                        }
-                    ]
-                },
-                {
-                    "id": "11",
-                    "name": "questions",
-                    "displayName": "新店安装过程问题汇总",
-                    "display": true,
-                    "type": "text",
-                    "children": [
-                        {
-                            "id": "1101",
-                            "name": "shop number",
-                            "displayName": "门店代码",
-                            "display": true,
-                            "type": "file"
-                        },
-                        {
-                            "id": "1102",
-                            "name": "construction questions",
-                            "displayName": "营建方面问题",
-                            "display": true,
-                            "type": "textarea"
-                        },
-                        {
-                            "id": "1103",
-                            "name": "shop questions",
-                            "displayName": "门店方面问题",
-                            "display": true,
-                            "type": "textarea"
-                        },
-                        {
-                            "id": "1104",
-                            "name": "device questions",
-                            "displayName": "设备方面问题",
-                            "display": true,
-                            "type": "textarea"
-                        },
-                        {
-                            "id": "1105",
-                            "name": "route questions",
-                            "displayName": "线路方面问题",
-                            "display": true,
-                            "type": "textarea"
-                        },
-                        {
-                            "id": "1106",
-                            "name": "programmer questions",
-                            "displayName": "工程师现场未完成/无法完成/等待时间超过2小时等事宜&建议 ",
-                            "display": true,
-                            "type": "textarea"
-                        }
-                    ]
-                },
-                {
-                    "selectedValue": [
-                        {
-                            "id": "0101",
-                            "list": []
-                        },
-                        {
-                            "id": "0102",
-                            "list": []
-                        },
-                        {
-                            "id": "0105",
-                            "list": []
-                        },
-                        {
-                            "id": "0404",
-                            "list": []
-                        }
-                    ],
-                    "longDesc": [
-                        {
-                            "id": "090107",
-                            "description": "机柜关门照 (关闭机柜门，锁好门，照片看到外部环境和线路走入情况"
-                        },
-                        {
-                            "id": "090104",
-                            "description": "机柜设备安装后开门照（要拍到每层设备放置位置及走线，请确保设备放置在对应的层）"
-                        },
-                        {
-                            "id": "090601",
-                            "description": "CCTV监控画面（Web访问截图）"
-                        },
-                        {
-                            "id": "0907",
-                            "description": "其他（SDCD、TVBOX、UPS）"
-                        },
-                        {
-                            "id": "090702",
-                            "description": "UPS：UPS正面照 (要拍到UPS主机、电池柜及前面板状态灯显示)"
-                        },
-                        {
-                            "id": "1001",
-                            "description": "每台POS的Ready打印单，收银机与打印机工作正常（适用于客户/客户/ED）"
-                        },
-                        {
-                            "id": "1002",
-                            "description": " Compris数据清零后，打印Sales Report【前日总结=0】(适用于客户/客户/ED)"
-                        },
-                        {
-                            "id": "1003",
-                            "description": "POS交叉点餐纸带报表，对应位置正确出单，收银机、内外场打印机正常（适用于客户）"
-                        },
-                        {
-                            "id": "1004",
-                            "description": "打印测试发票(适用于全品牌上发票打印系统的门店，不能使用正式发票)"
-                        },
-                        {
-                            "id": "1102",
-                            "description": "营建方面问题(如电源不是国标，CCTV飞线，没有UPS标识，无插座、模块等)(请具体描述)"
-                        },
-                        {
-                            "id": "1103",
-                            "description": "门店方面问题(请具体描述)"
-                        },
-                        {
-                            "id": "1104",
-                            "description": "设备方面问题（如设备DOA，或变形不影响使用，或未到齐等）(请具体描述)"
-                        },
-                        {
-                            "id": "1105",
-                            "description": "线路方面问题(如ADSL未开通)(请具体描述)"
-                        },
-                        {
-                            "id": "1106",
-                            "description": "工程师现场未完成/无法完成/等待时间超过2小时等事宜&建议 (请具体描述)"
-                        }
-                    ]
                 }
             ]
-        }]
-    constructor() { 
+        },
+        {
+            "id": "10",
+            "name": "functional acceptance",
+            "displayName": "新店功能性验收",
+            "display": true,
+            "type": "text",
+            "children": [
+                {
+                    "id": "1001",
+                    "name": "POS cashier printer",
+                    "displayName": "每台POS的Ready打印单，收银机与打印机工作正常",
+                    "display": true,
+                    "type": "file"
+                },
+                {
+                    "id": "1002",
+                    "name": "sales report",
+                    "displayName": "Compris数据清零后，打印Sales Report",
+                    "display": true,
+                    "type": "file"
+                },
+                {
+                    "id": "1003",
+                    "name": "report cashier",
+                    "displayName": "POS交叉点餐纸带报表，对应位置正确出单，收银机、内外场打印机正常",
+                    "display": true,
+                    "type": "file"
+                },
+                {
+                    "id": "1004",
+                    "name": "print invoice test",
+                    "displayName": "打印外送测发票",
+                    "display": true,
+                    "type": "file"
+                },
+                {
+                    "id": "1005",
+                    "name": "shop number address telephone",
+                    "displayName": "餐条显示正确的门店编号、门店中文地址、门店电话",
+                    "display": true,
+                    "type": "file"
+                }
+            ]
+        },
+        {
+            "id": "11",
+            "name": "questions",
+            "displayName": "新店安装过程问题汇总",
+            "display": true,
+            "type": "text",
+            "children": [
+                {
+                    "id": "1101",
+                    "name": "shop number",
+                    "displayName": "门店代码",
+                    "display": true,
+                    "type": "file"
+                },
+                {
+                    "id": "1102",
+                    "name": "construction questions",
+                    "displayName": "营建方面问题",
+                    "display": true,
+                    "type": "textarea"
+                },
+                {
+                    "id": "1103",
+                    "name": "shop questions",
+                    "displayName": "门店方面问题",
+                    "display": true,
+                    "type": "textarea"
+                },
+                {
+                    "id": "1104",
+                    "name": "device questions",
+                    "displayName": "设备方面问题",
+                    "display": true,
+                    "type": "textarea"
+                },
+                {
+                    "id": "1105",
+                    "name": "route questions",
+                    "displayName": "线路方面问题",
+                    "display": true,
+                    "type": "textarea"
+                },
+                {
+                    "id": "1106",
+                    "name": "programmer questions",
+                    "displayName": "工程师现场未完成/无法完成/等待时间超过2小时等事宜&建议 ",
+                    "display": true,
+                    "type": "textarea"
+                }
+            ]
+        },
+        {
+            "selectedValue": [
+                {
+                    "id": "0101",
+                    "list": []
+                },
+                {
+                    "id": "0102",
+                    "list": []
+                },
+                {
+                    "id": "0105",
+                    "list": []
+                },
+                {
+                    "id": "0404",
+                    "list": []
+                }
+            ],
+            "longDesc": [
+                {
+                    "id": "090107",
+                    "description": "机柜关门照 (关闭机柜门，锁好门，照片看到外部环境和线路走入情况"
+                },
+                {
+                    "id": "090104",
+                    "description": "机柜设备安装后开门照（要拍到每层设备放置位置及走线，请确保设备放置在对应的层）"
+                },
+                {
+                    "id": "090601",
+                    "description": "CCTV监控画面（Web访问截图）"
+                },
+                {
+                    "id": "0907",
+                    "description": "其他（SDCD、TVBOX、UPS）"
+                },
+                {
+                    "id": "090702",
+                    "description": "UPS：UPS正面照 (要拍到UPS主机、电池柜及前面板状态灯显示)"
+                },
+                {
+                    "id": "1001",
+                    "description": "每台POS的Ready打印单，收银机与打印机工作正常（适用于客户/客户/ED）"
+                },
+                {
+                    "id": "1002",
+                    "description": " Compris数据清零后，打印Sales Report【前日总结=0】(适用于客户/客户/ED)"
+                },
+                {
+                    "id": "1003",
+                    "description": "POS交叉点餐纸带报表，对应位置正确出单，收银机、内外场打印机正常（适用于客户）"
+                },
+                {
+                    "id": "1004",
+                    "description": "打印测试发票(适用于全品牌上发票打印系统的门店，不能使用正式发票)"
+                },
+                {
+                    "id": "1102",
+                    "description": "营建方面问题(如电源不是国标，CCTV飞线，没有UPS标识，无插座、模块等)(请具体描述)"
+                },
+                {
+                    "id": "1103",
+                    "description": "门店方面问题(请具体描述)"
+                },
+                {
+                    "id": "1104",
+                    "description": "设备方面问题（如设备DOA，或变形不影响使用，或未到齐等）(请具体描述)"
+                },
+                {
+                    "id": "1105",
+                    "description": "线路方面问题(如ADSL未开通)(请具体描述)"
+                },
+                {
+                    "id": "1106",
+                    "description": "工程师现场未完成/无法完成/等待时间超过2小时等事宜&建议 (请具体描述)"
+                }
+            ]
+        }
+    ]
+    constructor() {
         // this.moduleConfiglist.forEach(module=>{
         //     console.log(module.children)
         //     module.isActive=false;
@@ -831,14 +832,56 @@ export class ModuleConfigService {
     getModuleConfig() {
         return this.moduleConfiglist;
     }
-    initNagtive(array){
-        array.forEach((item,index)=>{
-            item.isActive=false;
+    initNagtive(array) {
+        array.forEach((item, index) => {
+            item.isActive = false;            
             // if(index==0) item.isActive=true;
-            if(item.children!==undefined){
+            if (item.children !== undefined) {
                 this.initNagtive(item.children)
             }
         })
+    }
+    activeTab(array){
+        array.forEach(m=>{
+            m['activeTab']=false;                
+            if (m['children'] !== undefined) {
+                this.activeTab(m['children'])
+            }
+        })
+    }
+    getModuleHtml() {
+        let sum = ''
+        this.moduleConfiglist.forEach(module => {
+            sum += this.menuInstance(module);
+        })
+        // let subMenuhtml: string = this.menuInstance('');
+        // let menuHtml = `<div class="menu_tab1  wrap" [class.activeTab]="module.isActive" *ngFor="let module of moduleconfigList" (click)="tabClick(module)">{{module.displayName}}
+        // ${subMenuhtml}
+        // </div>
+        // `
+        console.log(sum)
+    }
+    menuInstance(instanceObj) {
+        if (!instanceObj.children) {
+            return `<div>{{instance.displayName}}</div>`
+        } else {
+            console.log(instanceObj.id.length)
+            let sub = '';
+            instanceObj.children.forEach(child => {
+                sub += this.menuInstance(child)
+            })
+            // return sub
+            return `
+        <div>
+        <div>{{instance.displayName}}</div>
+        <div>${
+                this.menuInstance(instanceObj.children)
+                }</div>
+                      
+        </div>
+        `
+        }
+
     }
 }
 
