@@ -834,7 +834,8 @@ export class ModuleConfigService {
     }
     initNagtive(array) {
         array.forEach((item, index) => {
-            item.isActive = false;            
+            item.isActive = false;
+            item.value=null;            
             // if(index==0) item.isActive=true;
             if (item.children !== undefined) {
                 this.initNagtive(item.children)

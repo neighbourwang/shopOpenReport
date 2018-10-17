@@ -10,61 +10,110 @@
 </ion-header>
 
 <ion-content class="main_content">
-  
-  <div class="home_content">
-    <div class="sub_module left wrap" *ngFor="let submodule of subModulelist">{{submodule.displayName}} </div>
+  <!-- <div  *ngIf="subModulelist.length>0">
+      <ion-card *ngFor="let submodule of subModulelist">
+          <ion-card-content  (click)="cardClick(submodule)">
+            {{submodule.displayName}}
+          </ion-card-content>
+        </ion-card>
   </div>
-  
+
+  <ion-list *ngIf="subModulelist.length==0">
+    <ion-item>
+      <ion-label>{{endModule.displayName}}</ion-label>
+      <ion-select [(ngModel)]="endModule.displayName" *ngIf="endModule.type=='select'">
+        <ion-option value="nes">NES</ion-option>
+        <ion-option value="n64">Nintendo64</ion-option>
+        <ion-option value="ps">PlayStation</ion-option>
+        <ion-option value="genesis">Sega Genesis</ion-option>
+        <ion-option value="saturn">Sega Saturn</ion-option>
+        <ion-option value="snes">SNES</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list> -->
+  <!-- <div class="home_content">
+    <div class="sub_module left wrap" *ngFor="let submodule of subModulelist">{{submodule.displayName}} </div>
+  </div> -->
+  <ion-list>
+    <div *ngFor="let module of activeModuleList">
+      <ion-item-group *ngIf="module.children">
+        <ion-item-divider color="light">{{module.displayName}}</ion-item-divider>
+        <ion-item *ngFor="let subModule of module.children" (click)="itemModule(module)">{{subModule.displayName}}</ion-item>
+      </ion-item-group>
+      <div *ngIf="!module.children">
+        <ion-item *ngIf="module.type=='select'">
+          <ion-label>{{module.displayName}}</ion-label>
+          <ion-select [(ngModel)]="module.value">
+            <ion-option value="nes">NES</ion-option>
+            <ion-option value="n64">Nintendo64</ion-option>
+            <ion-option value="ps">PlayStation</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="module.type=='text'">
+          <ion-label fixed>{{module.displayName}}</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item *ngIf="module.type=='date'">
+          <ion-label>{{module.displayName}}</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY" [(ngModel)]="module.value"></ion-datetime>
+        </ion-item>
+        <ion-item detail-push *ngIf="module.type=='file'" (click)="fileAction(module)">
+                {{ module.displayName }}
+          </ion-item>
+      </div>
+    </div>
+  </ion-list>
+
 </ion-content>
 <ion-menu [content]="mymenu" type="overlay">
-    <ion-header>
-        <ion-toolbar>
-          <ion-title>Menu</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    <ion-content>
-        <div class="home_slides left">
-            <div class="menu_tab1" *ngFor="let module of moduleconfigList">
-              <div class="tab_title" [class.activeTab]="module.isActive" (click)="tab1Click(module)">
-                <div class="title_text wrap">{{module.displayName}}</div>
-                <span *ngIf="module.children" class="arrow_icon">
-                  <ion-icon *ngIf="!module.isActive" name="arrow-forward"></ion-icon>
-                  <ion-icon *ngIf="module.isActive" name="arrow-down"></ion-icon>
-                </span>
-              </div>
-              <div *ngIf="module.isActive">
-                <div class="menu_tab2  wrap" *ngFor="let subModule of module.children">
-                  <div class="tab_title" (click)="tab2Click(subModule,module)" [class.activeTab]="subModule.isActive">
-                      <div class="title_text wrap">{{subModule.displayName}}</div>
-                      <span *ngIf="subModule.children" class="arrow_icon">
-                        <ion-icon *ngIf="!subModule.isActive" name="arrow-forward"></ion-icon>
-                        <ion-icon *ngIf="subModule.isActive" name="arrow-down"></ion-icon>
-                      </span>
-                  </div>
-                  <div *ngIf="subModule.isActive">
-                    <div class="menu_tab3 wrap" *ngFor="let child of subModule.children">
-                      <div class="tab_title" (click)="tab2Click(child,subModule)">
-                          <div class="title_text wrap">{{child.displayName}}</div>
-                          <span *ngIf="child.children" class="arrow_icon">
-                            <ion-icon *ngIf="!child.isActive" name="arrow-forward"></ion-icon>
-                            <ion-icon *ngIf="child.isActive" name="arrow-down"></ion-icon>
-                          </span>
-                      </div>
-                      <div *ngIf="child.isActive">
-                        <div class="menu_tab4 wrap" *ngFor="let subChild of child.children">
-                          <div (click)="tab2Click(subChild,subModule)">{{subChild.displayName}}</div>
-                          <!-- <div *ngFor="let subChild of subModule.children">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <div class="home_slides left">
+      <div class="menu_tab1" *ngFor="let module of moduleconfigList">
+        <div class="tab_title" [class.activeTab]="module.isActive" (click)="tab1Click(module)">
+          <div class="title_text wrap">{{module.displayName}}</div>
+          <span *ngIf="module.children" class="arrow_icon">
+            <ion-icon *ngIf="!module.isActive" name="arrow-forward"></ion-icon>
+            <ion-icon *ngIf="module.isActive" name="arrow-down"></ion-icon>
+          </span>
+        </div>
+        <div *ngIf="module.isActive">
+          <div class="menu_tab2  wrap" *ngFor="let subModule of module.children">
+            <div class="tab_title" (click)="tab2Click(subModule,module)" [class.activeTab]="subModule.isActive">
+              <div class="title_text wrap">{{subModule.displayName}}</div>
+              <span *ngIf="subModule.children" class="arrow_icon">
+                <ion-icon *ngIf="!subModule.isActive" name="arrow-forward"></ion-icon>
+                <ion-icon *ngIf="subModule.isActive" name="arrow-down"></ion-icon>
+              </span>
+            </div>
+            <div *ngIf="subModule.isActive">
+              <div class="menu_tab3 wrap" *ngFor="let child of subModule.children">
+                <div class="tab_title" (click)="tab2Click(child,subModule)">
+                  <div class="title_text wrap">{{child.displayName}}</div>
+                  <span *ngIf="child.children" class="arrow_icon">
+                    <ion-icon *ngIf="!child.isActive" name="arrow-forward"></ion-icon>
+                    <ion-icon *ngIf="child.isActive" name="arrow-down"></ion-icon>
+                  </span>
+                </div>
+                <div *ngIf="child.isActive">
+                  <div class="menu_tab4 wrap" *ngFor="let subChild of child.children">
+                    <div (click)="tab2Click(subChild,subModule)">{{subChild.displayName}}</div>
+                    <!-- <div *ngFor="let subChild of subModule.children">
                               
                             </div> -->
-                        </div>
-                      </div>
-                    </div>
                   </div>
-        
                 </div>
               </div>
-        
             </div>
+
           </div>
-    </ion-content>
-  </ion-menu>
+        </div>
+
+      </div>
+    </div>
+  </ion-content>
+</ion-menu>
