@@ -1,5 +1,9 @@
+import { wyHttpService } from './http.service'
+import { Injectable } from '@angular/core'
+@Injectable()
 export class ModuleConfigService {
-    moduleConfiglist = [
+    // module
+    moduleConfiglistModel = [
         {
             "id": "01",
             "name": "title",
@@ -822,30 +826,47 @@ export class ModuleConfigService {
             ]
         }
     ]
-    constructor() {
+    moduleConfiglist=[]
+    constructor(
+        private http:wyHttpService
+    ) {
         // this.moduleConfiglist.forEach(module=>{
         //     console.log(module.children)
         //     module.isActive=false;
         // })
-        this.initNagtive(this.moduleConfiglist);
+        // this.pingPu(this.moduleConfiglistModel)
+    }
+    getInitConfig(brand){
+        return this.http.getModuleConfig(brand).then((data:any)=>{
+            console.log(data)
+            if(data.code==200&&data.data){
+                this.moduleConfiglist=data.data;
+                this.initNagtive(this.moduleConfiglist,'init');
+                return Promise.resolve(this.moduleConfiglist)
+            }else{
+                return Promise.reject('获取配置错误')                
+            }
+        })
     }
     getModuleConfig() {
         return this.moduleConfiglist;
     }
-    initNagtive(array) {
+    initNagtive(array,type) {
         array.forEach((item, index) => {
             item.isActive = false;
-            item.value=null;            
+            if(type=='init'){
+                item.value=[]
+            }           
             // if(index==0) item.isActive=true;
             if (item.children !== undefined) {
-                this.initNagtive(item.children)
+                this.initNagtive(item.children,type)
             }
         })
     }
     activeTab(array){
         array.forEach(m=>{
             m['activeTab']=false;                
-            if (m['children'] !== undefined) {
+            if (m['chilr5p0-21!!!!dren'] !== undefined) {
                 this.activeTab(m['children'])
             }
         })
@@ -883,6 +904,15 @@ export class ModuleConfigService {
         `
         }
 
+    }
+    pingPu(children){
+        children.forEach((module)=>{
+            if(!module['children']){
+                console.log(module)
+            }else{
+                this.pingPu(module.children)
+            }
+        })
     }
 }
 

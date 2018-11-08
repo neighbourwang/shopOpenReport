@@ -6,21 +6,28 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { ModuleConfigService } from '../config/moduleConfigService';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { MenuPage } from '../pages/menu/menu';
 import { SettingPage } from '../pages/setting/setting';
 import { TabsTextPage } from '../pages/tabs/tabs';
-
+import { HttpClientModule }    from '@angular/common/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { UserService } from '../config/user.service'
+import { wyHttpService } from '../config/http.service'
+import { Menu } from 'ionic-angular/components/menu/menu';
+import { SelectValuePipe } from '../config/selectValue.pipe'
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     TabsTextPage,
-    SettingPage
+    SettingPage,
+    MenuPage,
+    SelectValuePipe
   ],
   imports: [
     BrowserModule,
+    HttpClientModule ,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -28,7 +35,8 @@ import { UserService } from '../config/user.service'
     MyApp,
     HomePage,
     TabsTextPage,
-    SettingPage
+    SettingPage,
+    MenuPage
   ],
   providers: [
     StatusBar,
@@ -36,6 +44,7 @@ import { UserService } from '../config/user.service'
     Camera,
     UserService,
     ModuleConfigService ,
+    wyHttpService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
