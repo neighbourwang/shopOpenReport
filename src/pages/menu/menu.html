@@ -41,29 +41,54 @@
     </div> -->
     <ion-list>
       <div *ngFor="let module of activeModuleList">
-        <ion-item-group *ngIf="module.children">
+        <ion-item-group *ngIf="module.children&&module.id!='0801'">
           <ion-item-divider color="light">{{module.displayName}}</ion-item-divider>
           <ion-item *ngFor="let subModule of module.children" (click)="itemModule(module)">{{subModule.displayName}}</ion-item>
         </ion-item-group>
-        <div *ngIf="!module.children">
-          <ion-item *ngIf="module.type=='select'">
+
+        <div *ngIf="!module.children&&module.id!='0801'">
+          <ion-item *ngIf="module.type=='select'&&module.id.slice(0,4)!='0801'">
             <ion-label>{{module.displayName}}</ion-label>
-            <ion-select [(ngModel)]="module.value[0]">
+            <ion-select [(ngModel)]="module.value[0]"  (ngModelChange)="valueChange(module)">
               <ion-option *ngFor="let option of getSelectValue(module.id)">{{option}}</ion-option>
             </ion-select>
           </ion-item>
           <ion-item *ngIf="module.type=='text'">
             <ion-label fixed>{{module.displayName}}</ion-label>
-            <ion-input type="text" [(ngModel)]="module.value[0]" value=""></ion-input>
+            <ion-input type="text" [(ngModel)]="module.value[0]" (ngModelChange)="valueChange(module)" value=""></ion-input>
           </ion-item>
           <ion-item *ngIf="module.type=='date'">
             <ion-label>{{module.displayName}}</ion-label>
-            <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY" [(ngModel)]="module.value[0]"></ion-datetime>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="module.value[0]" (ngModelChange)="valueChange(module)"></ion-datetime>
           </ion-item>
           <ion-item detail-push *ngIf="module.type=='file'" (click)="fileAction(module)">
                   {{ module.displayName }}
+              <!-- <ion-icon name="rose" item-end></ion-icon> -->
+              <!-- <img src="./assets/imgs/kfc.jpg" alt="" class="thumbnail"> -->
+              <img [src]="module.value[0]" alt="" class="thumbnail">
             </ion-item>
+            <ion-item *ngIf="module.type=='hardware'" (click)="addhardware($event,module)">
+                <ion-label>{{module.displayName}}</ion-label>
+                <ion-icon name="add" item-end></ion-icon>
+                <!-- <ion-select (ngModelChange)="addhardware($event)">
+                    <ion-option *ngFor="let hard of hardWareList">{{hard.displayName}}</ion-option>
+                   
+                  </ion-select> -->
+              </ion-item>
         </div>
+        <ion-item-group *ngIf="module.id=='0801'">
+            <ion-item-divider color="light"  (click)="addhardware($event,module)">
+                <ion-label>{{module.displayName}}</ion-label>
+                <ion-icon name="add" item-end></ion-icon>
+            </ion-item-divider>
+            <!-- <ion-item (click)="itemModule(module)">{{module.displayName}}</ion-item> -->
+            <ion-item *ngFor="let subModule of module.children" (click)="itemModule(module)">
+                <ion-label>{{subModule.displayName}}</ion-label>
+                <ion-select [(ngModel)]="subModule.value[0]">
+                  <ion-option *ngFor="let option of subModule.selectList.list">{{option}}</ion-option>
+                </ion-select>
+            </ion-item>
+          </ion-item-group>
       </div>
     </ion-list>
   
@@ -78,7 +103,7 @@
       <div class="home_slides left">
         <div class="menu_tab1" *ngFor="let module of moduleconfigList">
           <div class="tab_title" [class.activeTab]="module.isActive" (click)="tab1Click(module)">
-            <div class="title_text wrap">{{module.displayName}}</div>
+            <div class="title_text wrap" [class.finishGreen]="module.finish">{{module.displayName}}</div>
             <span *ngIf="module.children" class="arrow_icon">
               <ion-icon *ngIf="!module.isActive" ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
               <ion-icon *ngIf="module.isActive" ios="ios-arrow-down" md="ios-arrow-down"></ion-icon>
@@ -87,7 +112,7 @@
           <div *ngIf="module.isActive">
             <div class="menu_tab2  wrap" *ngFor="let subModule of module.children">
               <div class="tab_title" (click)="tab2Click(subModule,module)" [class.activeTab]="subModule.isActive">
-                <div class="title_text wrap">{{subModule.displayName}}</div>
+                <div class="title_text wrap" [class.finishGreen]="subModule.finish">{{subModule.displayName}}</div>
                 <span *ngIf="subModule.children" class="arrow_icon">
                   <ion-icon *ngIf="!subModule.isActive" ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
                   <ion-icon *ngIf="subModule.isActive" ios="ios-arrow-down" md="ios-arrow-down"></ion-icon>
@@ -96,7 +121,7 @@
               <div *ngIf="subModule.isActive">
                 <div class="menu_tab3 wrap" *ngFor="let child of subModule.children">
                   <div class="tab_title" (click)="tab2Click(child,subModule)">
-                    <div class="title_text wrap">{{child.displayName}}</div>
+                    <div class="title_text wrap" [class.finishGreen]="child.finish">{{child.displayName}}</div>
                     <span *ngIf="child.children" class="arrow_icon">
                       <ion-icon *ngIf="!child.isActive" ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
                       <ion-icon *ngIf="child.isActive" ios="ios-arrow-down" md="ios-arrow-down"></ion-icon>
@@ -104,7 +129,7 @@
                   </div>
                   <div *ngIf="child.isActive">
                     <div class="menu_tab4 wrap" *ngFor="let subChild of child.children">
-                      <div (click)="tab2Click(subChild,subModule)">{{subChild.displayName}}</div>
+                      <div (click)="tab2Click(subChild,subModule)" [class.finishGreen]="subChild.finish">{{subChild.displayName}}</div>
                       <!-- <div *ngFor="let subChild of subModule.children">
                                 
                               </div> -->

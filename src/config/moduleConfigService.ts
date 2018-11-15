@@ -827,6 +827,7 @@ export class ModuleConfigService {
         }
     ]
     moduleConfiglist=[]
+    hardWareList=[];
     constructor(
         private http:wyHttpService
     ) {
@@ -855,7 +856,8 @@ export class ModuleConfigService {
         array.forEach((item, index) => {
             item.isActive = false;
             if(type=='init'){
-                item.value=[]
+                item.value=[];
+                item.finish=false;
             }           
             // if(index==0) item.isActive=true;
             if (item.children !== undefined) {
@@ -911,6 +913,13 @@ export class ModuleConfigService {
                 console.log(module)
             }else{
                 this.pingPu(module.children)
+            }
+        })
+    }
+    getHardWareList(){
+        return this.http.getHardwareList().then(data=>{
+            if(data['code']==200&&data['data']){
+              this.hardWareList=data['data']
             }
         })
     }

@@ -28,11 +28,15 @@ export class HomePage {
   }
   net(){
     console.log('dd')
-    this.moduleConfigService.getInitConfig('kfc').then(data=>{
-      this.navCtrl.push(MenuPage)  
-    }).catch(error=>{
-      console.log(error)
-    });
+    if(this.moduleConfigService.moduleConfiglist.length==0){
+      this.moduleConfigService.getInitConfig('kfc').then(data=>{
+        this.navCtrl.push(MenuPage)  
+      }).catch(error=>{
+        console.log(error)
+      });
+    }else{
+      this.navCtrl.push(MenuPage)        
+    }
   }
 
 }

@@ -67,4 +67,14 @@ export class wyHttpService {
         })
             
     }
+    //获取添加硬件列表
+    getHardwareList(){
+        let url=baseUrl+`/openshopreport/hardware/getConfig`
+        return this.http.get(url).toPromise().then(data=>{
+            console.log(data)
+            return Promise.resolve(data)
+        }).catch(error=>{
+            console.log(error)
+        }) 
+    }
 }

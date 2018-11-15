@@ -15,7 +15,7 @@ import { UserService } from '../config/user.service'
 import { wyHttpService } from '../config/http.service'
 import { Menu } from 'ionic-angular/components/menu/menu';
 import { SelectValuePipe } from '../config/selectValue.pipe'
-
+import { HardwarePage } from '../conponents/hardwarePage'
 @NgModule({
   declarations: [
     MyApp,
@@ -23,7 +23,8 @@ import { SelectValuePipe } from '../config/selectValue.pipe'
     TabsTextPage,
     SettingPage,
     MenuPage,
-    SelectValuePipe
+    SelectValuePipe,
+    HardwarePage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +37,8 @@ import { SelectValuePipe } from '../config/selectValue.pipe'
     HomePage,
     TabsTextPage,
     SettingPage,
-    MenuPage
+    MenuPage,
+    HardwarePage
   ],
   providers: [
     StatusBar,
