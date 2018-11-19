@@ -7,6 +7,8 @@ import { ModuleConfigService } from '../config/moduleConfigService';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MenuPage } from '../pages/menu/menu';
+import { SearchPage } from '../pages/search/search';
+import { EditPage } from '../pages/edit/edit';
 import { SettingPage } from '../pages/setting/setting';
 import { TabsTextPage } from '../pages/tabs/tabs';
 import { HttpClientModule }    from '@angular/common/http';
@@ -16,6 +18,7 @@ import { wyHttpService } from '../config/http.service'
 import { Menu } from 'ionic-angular/components/menu/menu';
 import { SelectValuePipe } from '../config/selectValue.pipe'
 import { HardwarePage } from '../conponents/hardwarePage'
+import { Searchbar } from 'ionic-angular/components/searchbar/searchbar';
 @NgModule({
   declarations: [
     MyApp,
@@ -24,7 +27,9 @@ import { HardwarePage } from '../conponents/hardwarePage'
     SettingPage,
     MenuPage,
     SelectValuePipe,
-    HardwarePage
+    HardwarePage,
+    EditPage,
+    SearchPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,9 @@ import { HardwarePage } from '../conponents/hardwarePage'
     TabsTextPage,
     SettingPage,
     MenuPage,
-    HardwarePage
+    HardwarePage,
+    EditPage,
+    SearchPage
   ],
   providers: [
     StatusBar,

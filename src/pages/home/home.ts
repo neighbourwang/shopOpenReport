@@ -30,9 +30,15 @@ export class HomePage {
     console.log('dd')
     if(this.moduleConfigService.moduleConfiglist.length==0){
       this.moduleConfigService.getInitConfig('kfc').then(data=>{
-        this.navCtrl.push(MenuPage)  
+        console.log(data)
+        // if(data['data']){
+          this.navCtrl.push(MenuPage)  
+        // }else{
+        //   alert('获取配置信息错误')
+        // }
       }).catch(error=>{
         console.log(error)
+        alert('获取配置信息错误')        
       });
     }else{
       this.navCtrl.push(MenuPage)        

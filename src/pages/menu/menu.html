@@ -75,6 +75,10 @@
                    
                   </ion-select> -->
               </ion-item>
+              <ion-item *ngIf="module.type=='textarea'">
+                <ion-label floating>{{module.displayName}}</ion-label>
+                <ion-textarea [(ngModel)]="module.value[0]" (ngModelChange)="valueChange(module)"></ion-textarea>
+              </ion-item>
         </div>
         <ion-item-group *ngIf="module.id=='0801'">
             <ion-item-divider color="light"  (click)="addhardware($event,module)">

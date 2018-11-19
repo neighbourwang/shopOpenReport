@@ -28,9 +28,9 @@ export class SettingPage {
   ngOnInit() {
     // setTimeout(this.getH5Cameral(), 0)
     console.log('iii');
-    this.video = document.getElementById('video2');
-    this.canvas = document.getElementById('canvas2');
-    this.ctx = this.canvas.getContext('2d');
+    // this.video = document.getElementById('video2');
+    // this.canvas = document.getElementById('canvas2');
+    // this.ctx = this.canvas.getContext('2d');
     // this.getH5Cameral()
 
   }

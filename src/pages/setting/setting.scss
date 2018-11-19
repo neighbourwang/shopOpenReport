@@ -5,9 +5,9 @@ page-home {
     height:25rem;
     width:25rem;
     // border:0.5rem solid rgb(57,133,255); 
-    border:0.5rem solid green; 
+    border:0.6rem solid rgb(238,168,17); 
     border-radius: 50%;
-    background-color: gray;
+    background-color: rgb(246,246,246);
     // background-image: url('../assets/imgs/iu.jpeg');
     // background-size:100%;
     margin:0 auto;
@@ -21,4 +21,12 @@ page-home {
         
     }
     overflow: hidden;
+}
+.btn{
+    position: absolute;
+    bottom: 20px;
+    width:100%;
+    margin:0 auto;
+    text-align: center;
+    padding: 0 50px;
 }

@@ -219,6 +219,7 @@ export class MenuPage {
           text: '返回',
           handler: () => {
             console.log('Archive clicked');
+            _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
             _self.navCtrl.pop();
           }
         }, {
@@ -240,6 +241,7 @@ export class MenuPage {
     return valueList ? valueList : [];
   }
   saveModule() {
+    let _self=this;
     console.log(this.moduleconfigList)
     this.moduleconfigList.forEach(module => {
       if (module.name == 'basicInformation') {
@@ -271,6 +273,7 @@ export class MenuPage {
       console.log(attr)
       if (!this.shopInfo[attr]) {
         alert(attr)
+        return;
       }
     }
     this.pingPu(this.moduleconfigList)
@@ -297,7 +300,30 @@ export class MenuPage {
       const alert = this.alertCtrl.create({
         title: '提示',
         subTitle: '保存成功',
-        buttons: ['OK']
+        buttons: [
+          {
+            text: 'Save',
+            handler: data => {
+              // console.log('Saved clicked');
+            _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
+            _self.navCtrl.pop();
+            }
+          }
+        ]
+      });
+      alert.present();
+    }).catch(err=>{
+      const alert = this.alertCtrl.create({
+        // title: '提示',
+        subTitle: '保存失败',
+        buttons: [
+          {
+            text: '确认',
+            handler: data => {
+             
+            }
+          }
+        ]
       });
       alert.present();
     })
@@ -357,10 +383,23 @@ export class MenuPage {
     }else{
       v.finish=false;
     }
-    
+    this.valueCheck(this.moduleconfigList)
   }
   valueCheck(v){
+    v.forEach(module=>{
+      if(module.children){
+        this.valueCheck(module.children)
+        module.finish=true;
+        module.children.forEach(child=>{
+          if(!child.finish){
+            module.finish=false;
+          }
+        })
+        this.valueCheck(module.children)
+      }else{
 
+      }
+    })
   }
   //递归判定是 for完成
 }
