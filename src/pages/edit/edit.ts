@@ -10,19 +10,31 @@ import { AlertController } from 'ionic-angular';
 import { wyHttpService } from '../../config/http.service'
 import { PopoverController } from 'ionic-angular';
 import { HardwarePage } from '../../conponents/hardwarePage'
+import { EditService } from './edit.service'
+import { EditSubPage } from '../editsub/editsub';
+
 // import { SelectValuePipe } from '../../config/selectValue.pipe'
 @Component({
-  templateUrl: 'edit.html'
+  templateUrl: 'edit.html',
+  providers:[EditService]
 })
 export class EditPage {
-  shouldShowCancel=true;
-  shopCode=''
+  shouldShowCancel = true;
+  shopCode = ''
   constructor(public navCtrl: NavController, private moduleConfigService: ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
-    private http: wyHttpService,public popoverCtrl: PopoverController) {
+    private http: wyHttpService, public popoverCtrl: PopoverController,private editservice:EditService) {
 
   }
   ngOnInit() {
-   
+    console.log(this.moduleConfigService.modelJson)
+    if (!this.moduleConfigService.modelJson) {
+      this.moduleConfigService.getInitConfig('kfc').then(data => {
+        console.log(data)
+      }).catch(error => {
+        console.log(error)
+        alert('获取配置信息错误')
+      });
+    }
   }
   onInput(ev: any) {
     // Reset items back to all of the items
@@ -36,24 +48,54 @@ export class EditPage {
       // this.items = this.items.filter((item) => {
       //   return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
       // })
-      
+
     }
   }
-  onCancel=(e)=>{
-    // this.http.getShopInfo('3145').then(data=>{
-    //   console.log(data)
-    // }).catch(err=>{
-    //   console.log('error')
-    // })
+  onCancel = (e) => {
     console.log(e)
     console.log(this.shopCode)
-    if(!this.shopCode||this.shopCode.trim()==''){
+    if (!this.shopCode || this.shopCode.trim() == '') {
       const alert = this.alertCtrl.create({
         title: '提示',
         subTitle: '请输入新店代码',
         buttons: ['OK']
       });
       alert.present();
+    }else{
+      this.editservice.getEditModuleList(this.shopCode).then(data=>{
+        console.log(this.editservice.editModuleList)
+        this.navCtrl.push(EditSubPage,{editModuleList:this.editservice.editModuleList})
+      }).catch(error=>{
+        const alert = this.alertCtrl.create({
+          title: '提示',
+          subTitle: error,
+          buttons: ['OK']
+        });
+        alert.present();
+      })
+    }
+  }
+  inputBlur(){
+    console.log(this.shopCode)
+    if (!this.shopCode || this.shopCode.trim() == '') {
+      const alert = this.alertCtrl.create({
+        title: '提示',
+        subTitle: '请输入新店代码',
+        buttons: ['OK']
+      });
+      alert.present();
+    }else{
+      this.editservice.getEditModuleList(this.shopCode).then(data=>{
+        console.log(this.editservice.editModuleList)
+        this.navCtrl.push(EditSubPage,{editModuleList:this.editservice.editModuleList})
+      }).catch(error=>{
+        const alert = this.alertCtrl.create({
+          title: '提示',
+          subTitle: error,
+          buttons: ['OK']
+        });
+        alert.present();
+      })
     }
   }
 }

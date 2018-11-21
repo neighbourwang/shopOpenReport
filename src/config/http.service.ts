@@ -89,7 +89,7 @@ export class wyHttpService {
     //获取开店信息
     getShopInfo(code){
         let data={
-            shopCode:code
+            shopcode:code
         }
         let url=baseUrl+`/openshopreport/shop/getShop`        
         return this.http.post(url,resetParams(data),httpOptions).toPromise().then(data=>{
@@ -98,5 +98,21 @@ export class wyHttpService {
         }).catch(error=>{
             console.log(error)
         }) 
+    }
+    //更新开店信息
+    updateModule(data){
+        let url=baseUrl+`/openshopreport/shop/updateShop`
+        return this.http.post(url,resetParams(data),httpOptions).toPromise().then(data=>{
+        //    return this.http.post(url,data).toPromise().then(data=>{
+            // console.log(data)
+            if(data&&data['code']==200){
+                return Promise.resolve(data)  
+            }else{
+                return Promise.reject(data['message'])
+            }
+        }).catch(error=>{
+            console.log(error)
+            return Promise.reject(data['message'])            
+        })
     }
 }

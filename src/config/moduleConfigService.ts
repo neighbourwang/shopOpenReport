@@ -1,5 +1,6 @@
 import { wyHttpService } from './http.service'
 import { Injectable } from '@angular/core'
+import { clone } from './utils'
 @Injectable()
 export class ModuleConfigService {
     // module
@@ -827,6 +828,7 @@ export class ModuleConfigService {
         }
     ]
     moduleConfiglist=[]
+    modelJson:any;
     hardWareList=[];
     constructor(
         private http:wyHttpService
@@ -842,6 +844,8 @@ export class ModuleConfigService {
             console.log(data)
             if(data.code==200&&data.data){
                 this.moduleConfiglist=data.data;
+                this.modelJson=JSON.parse(JSON.stringify(data.data))  
+                console.log(this.modelJson)
                 this.initNagtive(this.moduleConfiglist,'init');
                 return Promise.resolve(this.moduleConfiglist)
             }else{
@@ -872,18 +876,6 @@ export class ModuleConfigService {
                 this.activeTab(m['children'])
             }
         })
-    }
-    getModuleHtml() {
-        let sum = ''
-        this.moduleConfiglist.forEach(module => {
-            sum += this.menuInstance(module);
-        })
-        // let subMenuhtml: string = this.menuInstance('');
-        // let menuHtml = `<div class="menu_tab1  wrap" [class.activeTab]="module.isActive" *ngFor="let module of moduleconfigList" (click)="tabClick(module)">{{module.displayName}}
-        // ${subMenuhtml}
-        // </div>
-        // `
-        console.log(sum)
     }
     menuInstance(instanceObj) {
         if (!instanceObj.children) {

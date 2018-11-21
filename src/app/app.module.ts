@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { MenuPage } from '../pages/menu/menu';
 import { SearchPage } from '../pages/search/search';
 import { EditPage } from '../pages/edit/edit';
+import { EditSubPage } from '../pages/editsub/editsub';
 import { SettingPage } from '../pages/setting/setting';
 import { TabsTextPage } from '../pages/tabs/tabs';
 import { HttpClientModule }    from '@angular/common/http';
@@ -19,6 +20,7 @@ import { Menu } from 'ionic-angular/components/menu/menu';
 import { SelectValuePipe } from '../config/selectValue.pipe'
 import { HardwarePage } from '../conponents/hardwarePage'
 import { Searchbar } from 'ionic-angular/components/searchbar/searchbar';
+// import { Util } from '../config/utils'
 @NgModule({
   declarations: [
     MyApp,
@@ -29,12 +31,15 @@ import { Searchbar } from 'ionic-angular/components/searchbar/searchbar';
     SelectValuePipe,
     HardwarePage,
     EditPage,
+    EditSubPage,
     SearchPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule ,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp,{
+      tabsHideOnSubPages: 'true' // ionic2隐藏全部子页面tabs
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -45,6 +50,7 @@ import { Searchbar } from 'ionic-angular/components/searchbar/searchbar';
     MenuPage,
     HardwarePage,
     EditPage,
+    EditSubPage,    
     SearchPage
   ],
   providers: [
@@ -54,6 +60,7 @@ import { Searchbar } from 'ionic-angular/components/searchbar/searchbar';
     UserService,
     ModuleConfigService ,
     wyHttpService,
+    // Util,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

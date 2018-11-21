@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController ,NavParams} from 'ionic-angular';
 import { UserService } from '../../config/user.service'
 import { ModuleConfigService } from '../../config/moduleConfigService';
 import { elementAt } from 'rxjs/operator/elementAt';
@@ -10,17 +10,19 @@ import { AlertController } from 'ionic-angular';
 import { wyHttpService } from '../../config/http.service'
 import { PopoverController } from 'ionic-angular';
 import { HardwarePage } from '../../conponents/hardwarePage'
+import { EditSubService } from './editsub.service'
 // import { SelectValuePipe } from '../../config/selectValue.pipe'
 @Component({
-  templateUrl: 'menu.html'
+  templateUrl: 'editsub.html',
+  providers:[EditSubService]
 })
-export class MenuPage {
+export class EditSubPage {
   moduleconfigList = [];
   subModulelist = [];
   endModule = null;
   activeModuleList = null;
   tabModule = {
-    displayName: '新建新店报告'
+    displayName: '更新新店信息'
   }
   brand = 'kfc';
   shopInfo = {
@@ -32,18 +34,20 @@ export class MenuPage {
   };
   valueContent = [];
   hardWareList = [];
-  constructor(public navCtrl: NavController, private moduleConfigService: ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
-    private http: wyHttpService,public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController,private navParams:NavParams,private moduleConfigService:ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
+    private http: wyHttpService,public popoverCtrl: PopoverController,editsubservice:EditSubService) {
 
   }
   ngOnInit() {
-    this.moduleconfigList = this.moduleConfigService.getModuleConfig();
-    console.log(this.moduleconfigList)
+    console.log(this.navParams.data.editModuleList)
+    
+    this.moduleconfigList = this.navParams.data.editModuleList;
     this.tab1Click(this.moduleconfigList[0])
     this.endModule = this.moduleconfigList[0].children[0];
     this.activeModuleList = this.moduleconfigList;
-    // this.showRadio();
-    this.getHardWareList();
+    // // this.moduleConfigService.getModuleHtml();
+    // // this.showRadio();
+    // this.getHardWareList();
   }
 
   tab1Click(module) {
@@ -162,7 +166,11 @@ export class MenuPage {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       // console.log('ok', base64Image)
       // console.log(base64Image.slice(11))
-      module.value.push(base64Image)
+      if(module.value.length<=3){
+        module.value.push(base64Image)
+      }else{
+        module.value[2]=base64Image
+      }
       _self.valueChange(module)
     }, (err) => {
       // Handle error
@@ -294,7 +302,7 @@ export class MenuPage {
       }
     })
     console.log(this.shopInfo)
-    this.http.saveModule(this.shopInfo).then(data => {
+    this.http.updateModule(this.shopInfo).then(data => {
       console.log(data)
       const alert = this.alertCtrl.create({
         title: '提示',
