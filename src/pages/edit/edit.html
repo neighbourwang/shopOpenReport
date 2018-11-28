@@ -15,8 +15,8 @@
 </ion-header>
 
 <ion-content class="main_content">
-  <ion-searchbar [(ngModel)]="shopCode" placeholder="新店代码" (ionBlur)="inputBlur()"
+  <ion-searchbar [(ngModel)]="shopCode" placeholder="新店代码" [showCancelButton]="true" [cancelButtonText]="'cancel'"
   (ionInput)="onInput($event)"
-  (ionCancel)="onCancel($event)"></ion-searchbar>
+  (ionCancel)="onCancel($event)" (keyup)="keyUp($event)"></ion-searchbar>
 
 </ion-content>

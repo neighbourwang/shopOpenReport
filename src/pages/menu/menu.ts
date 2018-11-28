@@ -117,7 +117,32 @@ export class MenuPage {
   closeMenu() {
     this.menuCtrl.close();
   }
-  fileAction(module) {
+  fileCountCheck(module){
+    let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
+    if(module.value.length==count.count){
+      const alert = this.alertCtrl.create({
+        // title: '提示',
+        subTitle: `最多上传${count.count}张图片，是否覆盖图片`,
+        buttons: [
+          {
+            text: '确认',
+            handler: data => {
+              this.fileAction(module)
+            }
+          },
+          {
+            text: '取消',
+            handler: data => {
+            }
+          }
+        ]
+      });
+      alert.present();
+    }else{
+      this.fileAction(module)      
+    }
+  }
+  fileAction(module) {    
     const actionSheet = this.actionSheetCtrl.create({
       // title: 'Modify your album',
       buttons: [
@@ -147,6 +172,8 @@ export class MenuPage {
   }
   takePicture(module, type) {
     let _self=this;
+    console.log(this.moduleconfigList[11]['pictureCount'])
+    let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
     const options = {
       quality: 50,
       sourceType: type,
@@ -162,7 +189,11 @@ export class MenuPage {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       // console.log('ok', base64Image)
       // console.log(base64Image.slice(11))
-      module.value.push(base64Image)
+      if(module.value.length<count.count){
+        module.value.push(base64Image)
+      }else{
+        module.value[count.count-1]=base64Image
+      }
       _self.valueChange(module)
     }, (err) => {
       // Handle error
@@ -243,37 +274,41 @@ export class MenuPage {
     let _self=this;
     console.log(this.moduleconfigList)
     this.moduleconfigList.forEach(module => {
-      if (module.name == 'basicInformation') {
-        console.log(module)
+      //新店代码
+      if(module.id=='01'){
         module.children.forEach(child => {
-          if (child.name == 'restaurantName') {
-            this.shopInfo.shopName = child.value[0]
-          } else if (child.name == 'restaurantNO') {
+          if (child.id=='0103') {
             this.shopInfo.shopCode = child.value[0]
-          } else if (child.name == 'brand') {
-            this.shopInfo.shopBrand = child.value[0]
-          }
+          } 
         })
       }
-      if (module.name == 'versionNo') {
-        this.shopInfo.shopVersion = module.children[0].value[0]
-      }
-      if (module.name == 'title') {
-        module.children.forEach(child => {
-          if (child.name == 'code') {
-            this.shopInfo.shopCode = child.value[0]
-          }
-        })
-      }
-      // this.shopInfo.shopContent.push({ id: module.id, content: this.returnLajiBackend(module) })
+      //新店基本信息
+      // if (module.id=='04') {
+      //   console.log(module)
+      //   module.children.forEach(child => {
+      //     if (child.id=='0402') {
+      //       this.shopInfo.shopName = child.value[0]
+      //     } else if (child.id=='0404') {
+      //       this.shopInfo.shopBrand = child.value[0]
+      //     }
+      //   })
+      // }
+      //版本
+      // if (module.id=='02') {
+      //   this.shopInfo.shopVersion = module.children[0].value[0]
+      // }
     })
-    console.log(this.shopInfo)
-    for (let attr in this.shopInfo) {
-      console.log(attr)
-      if (!this.shopInfo[attr]) {
-        alert(attr)
-        return;
-      }
+    // console.log(this.shopInfo)
+    // for (let attr in this.shopInfo) {
+    //   console.log(attr)
+    //   if (!this.shopInfo[attr]) {
+    //     alert(attr)
+    //     return;
+    //   }
+    // }
+    if(!this.shopInfo.shopCode){
+      alert('请输入新店代码')
+      return;
     }
     this.pingPu(this.moduleconfigList)
     console.log(this.valueContent)

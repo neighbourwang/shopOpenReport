@@ -16,13 +16,13 @@ import { EditSubPage } from '../editsub/editsub';
 // import { SelectValuePipe } from '../../config/selectValue.pipe'
 @Component({
   templateUrl: 'edit.html',
-  providers:[EditService]
+  providers: [EditService]
 })
 export class EditPage {
   shouldShowCancel = true;
   shopCode = ''
   constructor(public navCtrl: NavController, private moduleConfigService: ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
-    private http: wyHttpService, public popoverCtrl: PopoverController,private editservice:EditService) {
+    private http: wyHttpService, public popoverCtrl: PopoverController, private editservice: EditService) {
 
   }
   ngOnInit() {
@@ -52,50 +52,78 @@ export class EditPage {
     }
   }
   onCancel = (e) => {
-    console.log(e)
-    console.log(this.shopCode)
-    if (!this.shopCode || this.shopCode.trim() == '') {
-      const alert = this.alertCtrl.create({
-        title: '提示',
-        subTitle: '请输入新店代码',
-        buttons: ['OK']
-      });
-      alert.present();
-    }else{
-      this.editservice.getEditModuleList(this.shopCode).then(data=>{
-        console.log(this.editservice.editModuleList)
-        this.navCtrl.push(EditSubPage,{editModuleList:this.editservice.editModuleList})
-      }).catch(error=>{
-        const alert = this.alertCtrl.create({
-          title: '提示',
-          subTitle: error,
-          buttons: ['OK']
-        });
-        alert.present();
-      })
-    }
+    this.shopCode=''
+    // console.log(e)
+    // console.log(this.shopCode)
+    // if (!this.shopCode || this.shopCode.trim() == '') {
+    //   const alert = this.alertCtrl.create({
+    //     title: '提示',
+    //     subTitle: '请输入新店代码',
+    //     buttons: ['OK']
+    //   });
+    //   alert.present();
+    // }else{
+    //   this.editservice.getEditModuleList(this.shopCode).then(data=>{
+    //     console.log(this.editservice.editModuleList)
+    //     this.navCtrl.push(EditSubPage,{editModuleList:this.editservice.editModuleList})
+    //   }).catch(error=>{
+    //     const alert = this.alertCtrl.create({
+    //       title: '提示',
+    //       subTitle: error,
+    //       buttons: ['OK']
+    //     });
+    //     alert.present();
+    //   })
+    // }
   }
-  inputBlur(){
+  inputBlur() {
     console.log(this.shopCode)
-    if (!this.shopCode || this.shopCode.trim() == '') {
-      const alert = this.alertCtrl.create({
-        title: '提示',
-        subTitle: '请输入新店代码',
-        buttons: ['OK']
-      });
-      alert.present();
-    }else{
-      this.editservice.getEditModuleList(this.shopCode).then(data=>{
-        console.log(this.editservice.editModuleList)
-        this.navCtrl.push(EditSubPage,{editModuleList:this.editservice.editModuleList})
-      }).catch(error=>{
+    // if (!this.shopCode || this.shopCode.trim() == '') {
+    //   const alert = this.alertCtrl.create({
+    //     title: '提示',
+    //     subTitle: '请输入新店代码',
+    //     buttons: ['OK']
+    //   });
+    //   alert.present();
+    // }else{
+    //   this.editservice.getEditModuleList(this.shopCode).then(data=>{
+    //     console.log(this.editservice.editModuleList)
+    //     this.navCtrl.push(EditSubPage,{editModuleList:this.editservice.editModuleList})
+    //   }).catch(error=>{
+    //     const alert = this.alertCtrl.create({
+    //       title: '提示',
+    //       subTitle: error,
+    //       buttons: ['OK']
+    //     });
+    //     alert.present();
+    //   })
+    // }
+  }
+  keyUp(e) {
+    // console.log(e)
+    if (e.keyCode == 13) {
+      console.log(this.shopCode)
+      e.preventDefault();//禁止键盘默认事件
+      if (!this.shopCode || this.shopCode.trim() == '') {
         const alert = this.alertCtrl.create({
           title: '提示',
-          subTitle: error,
+          subTitle: '请输入新店代码',
           buttons: ['OK']
         });
         alert.present();
-      })
+      } else {
+        this.editservice.getEditModuleList(this.shopCode).then(data => {
+          console.log(this.editservice.editModuleList)
+          this.navCtrl.push(EditSubPage, { editModuleList: this.editservice.editModuleList })
+        }).catch(error => {
+          const alert = this.alertCtrl.create({
+            title: '提示',
+            subTitle: error,
+            buttons: ['OK']
+          });
+          alert.present();
+        })
+      }
     }
   }
 }

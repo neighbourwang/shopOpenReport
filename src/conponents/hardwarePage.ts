@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
-import { ModuleConfigService } from '../config/moduleConfigService';
-import { NavController,NavParams} from 'ionic-angular';
+import { NavParams} from 'ionic-angular';
 
 @Component({
   template: `
@@ -12,7 +11,7 @@ import { NavController,NavParams} from 'ionic-angular';
   `
 })
 export class HardwarePage {
-  constructor(public viewCtrl: ViewController,public navParams:NavParams,private moduleConfigService:ModuleConfigService) {
+  constructor(public viewCtrl: ViewController,public navParams:NavParams) {
     console.log(this.navParams)
     this.hardwareModule=this.navParams.data['hardware']
   }

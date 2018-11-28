@@ -862,6 +862,9 @@ export class ModuleConfigService {
             if(type=='init'){
                 item.value=[];
                 item.finish=false;
+            }
+            if(item.id=='0404'){
+                item.value=["KFC"]
             }           
             // if(index==0) item.isActive=true;
             if (item.children !== undefined) {

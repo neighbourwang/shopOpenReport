@@ -20,6 +20,10 @@ import { Menu } from 'ionic-angular/components/menu/menu';
 import { SelectValuePipe } from '../config/selectValue.pipe'
 import { HardwarePage } from '../conponents/hardwarePage'
 import { Searchbar } from 'ionic-angular/components/searchbar/searchbar';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+
 // import { Util } from '../config/utils'
 @NgModule({
   declarations: [
@@ -60,6 +64,9 @@ import { Searchbar } from 'ionic-angular/components/searchbar/searchbar';
     UserService,
     ModuleConfigService ,
     wyHttpService,
+    FileTransfer,
+    File,
+    FileOpener,
     // Util,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

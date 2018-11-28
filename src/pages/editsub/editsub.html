@@ -57,11 +57,15 @@
           <ion-label fixed>{{module.displayName}}</ion-label>
           <ion-input type="text" [(ngModel)]="module.value[0]" [readonly]="module.id=='0103'" (ngModelChange)="valueChange(module)" value=""></ion-input>
         </ion-item>
+        <ion-item *ngIf="module.type=='readonly'">
+          <ion-label fixed>{{module.displayName}}</ion-label>
+          <ion-input type="text" [(ngModel)]="module.value[0]" [readonly]="module.type=='readonly'"></ion-input>
+        </ion-item>
         <ion-item *ngIf="module.type=='date'">
           <ion-label>{{module.displayName}}</ion-label>
           <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="module.value[0]" (ngModelChange)="valueChange(module)"></ion-datetime>
         </ion-item>
-        <ion-item detail-push *ngIf="module.type=='file'" (click)="fileAction(module)">
+        <ion-item detail-push *ngIf="module.type=='file'" (click)="fileCountCheck(module)">
                 {{ module.displayName }}
             <!-- <ion-icon name="rose" item-end></ion-icon> -->
             <!-- <img src="./assets/imgs/kfc.jpg" alt="" class="thumbnail"> -->

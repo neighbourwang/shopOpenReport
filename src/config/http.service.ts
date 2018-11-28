@@ -115,4 +115,21 @@ export class wyHttpService {
             return Promise.reject(data['message'])            
         })
     }
+    //生产报告
+    generateReport(shopCode){
+        // let data={"shopName":"kfc", "shopCode":"GZH524"}
+        // const httpOptions = {
+        //     headers: new HttpHeaders({
+        //         'Content-Type': 'application/json'
+        //     })
+        // }
+        let url=`http://137.135.112.26:9092/createreport/?shopCode=${shopCode}`
+        return this.http.get(url).toPromise().then(data=>{
+            console.log(data)
+            return Promise.resolve(data)                        
+            }).catch(error=>{
+                console.log(error)
+                return Promise.reject(error)            
+            })
+    }
 }
