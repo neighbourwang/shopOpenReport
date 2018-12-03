@@ -844,7 +844,7 @@ export class ModuleConfigService {
             console.log(data)
             if(data.code==200&&data.data){
                 this.moduleConfiglist=data.data;
-                this.modelJson=JSON.parse(JSON.stringify(data.data))  
+                this.modelJson=(data.data).slice(0) 
                 console.log(this.modelJson)
                 this.initNagtive(this.moduleConfiglist,'init');
                 return Promise.resolve(this.moduleConfiglist)
@@ -865,7 +865,7 @@ export class ModuleConfigService {
             }
             if(item.id=='0404'){
                 item.value=["KFC"]
-            }           
+            }         
             // if(index==0) item.isActive=true;
             if (item.children !== undefined) {
                 this.initNagtive(item.children,type)
@@ -914,7 +914,7 @@ export class ModuleConfigService {
     getHardWareList(){
         return this.http.getHardwareList().then(data=>{
             if(data['code']==200&&data['data']){
-              this.hardWareList=data['data']
+              this.hardWareList=data['data'].slice(0)
             }
         })
     }

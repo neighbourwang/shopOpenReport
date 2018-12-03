@@ -42,12 +42,12 @@ export class EditSubPage {
     console.log(this.navParams.data.editModuleList)
     
     this.moduleconfigList = this.navParams.data.editModuleList;
-    this.tab1Click(this.moduleconfigList[0])
+    // this.tab1Click(this.moduleconfigList[0])
     this.endModule = this.moduleconfigList[0].children[0];
     this.activeModuleList = this.moduleconfigList;
     // // this.moduleConfigService.getModuleHtml();
     // // this.showRadio();
-    // this.getHardWareList();
+    this.getHardWareList();
   }
 
   tab1Click(module) {
@@ -80,7 +80,7 @@ export class EditSubPage {
         module.isActive = !module.isActive;
       }
     })
-    if (!module.children) {
+    if (!module.children||fatherModule.id=='0801'||module.id=='0801') {
       this.closeMenu();
       return
     };
@@ -201,7 +201,7 @@ export class EditSubPage {
     let _self=this;
     let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
     const options = {
-      quality: 50,
+      quality: 10,
       sourceType: type,
       // allowEdit:true,
       destinationType: 0,
@@ -365,8 +365,8 @@ export class EditSubPage {
             text: 'Save',
             handler: data => {
               // console.log('Saved clicked');
-            _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
-            _self.navCtrl.pop();
+            // _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
+            // _self.navCtrl.pop();
             }
           }
         ]
@@ -387,20 +387,6 @@ export class EditSubPage {
       });
       alert.present();
     })
-  }
-  returnLajiBackend(module) {
-    let content = [];
-    if (!module.children) {
-      // return {
-      //   id:module.id,
-      //   type:module.type,
-      //   value:module.value,
-      //   docType:""
-      // }
-    } else {
-
-    }
-
   }
   pingPu(children) {
     children.forEach((module) => {

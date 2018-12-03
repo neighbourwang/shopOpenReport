@@ -66,7 +66,7 @@
           <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="module.value[0]" (ngModelChange)="valueChange(module)"></ion-datetime>
         </ion-item>
         <ion-item detail-push *ngIf="module.type=='file'" (click)="fileCountCheck(module)">
-                {{ module.displayName }}
+              <span class="maxWidth wrap">{{ module.displayName }}</span>  
             <!-- <ion-icon name="rose" item-end></ion-icon> -->
             <!-- <img src="./assets/imgs/kfc.jpg" alt="" class="thumbnail"> -->
             <img [src]="module.value[0]" alt="" class="thumbnail">
@@ -92,7 +92,7 @@
           <!-- <ion-item (click)="itemModule(module)">{{module.displayName}}</ion-item> -->
           <ion-item *ngFor="let subModule of module.children" (click)="itemModule(module)">
               <ion-label>{{subModule.displayName}}</ion-label>
-              <ion-select [(ngModel)]="subModule.value[0]">
+              <ion-select [(ngModel)]="subModule.value" multiple="true">
                 <ion-option *ngFor="let option of subModule.selectList.list">{{option}}</ion-option>
               </ion-select>
           </ion-item>

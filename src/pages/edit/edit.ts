@@ -12,6 +12,8 @@ import { PopoverController } from 'ionic-angular';
 import { HardwarePage } from '../../conponents/hardwarePage'
 import { EditService } from './edit.service'
 import { EditSubPage } from '../editsub/editsub';
+import { LoadingController } from 'ionic-angular';
+import { LoadedModule } from 'ionic-angular/util/module-loader';
 
 // import { SelectValuePipe } from '../../config/selectValue.pipe'
 @Component({
@@ -22,17 +24,23 @@ export class EditPage {
   shouldShowCancel = true;
   shopCode = ''
   constructor(public navCtrl: NavController, private moduleConfigService: ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
-    private http: wyHttpService, public popoverCtrl: PopoverController, private editservice: EditService) {
+    private http: wyHttpService, public popoverCtrl: PopoverController, private editservice: EditService,public loadingCtrl:LoadingController) {
 
   }
   ngOnInit() {
+    const loader = this.loadingCtrl.create({
+      content: "Please wait...",
+    });
+    loader.present();
     console.log(this.moduleConfigService.modelJson)
     if (!this.moduleConfigService.modelJson) {
       this.moduleConfigService.getInitConfig('kfc').then(data => {
         console.log(data)
+        loader.dismiss();
       }).catch(error => {
         console.log(error)
         alert('获取配置信息错误')
+        loader.dismiss();        
       });
     }
   }
@@ -116,6 +124,7 @@ export class EditPage {
           console.log(this.editservice.editModuleList)
           this.navCtrl.push(EditSubPage, { editModuleList: this.editservice.editModuleList })
         }).catch(error => {
+          console.log(error)
           const alert = this.alertCtrl.create({
             title: '提示',
             subTitle: error,

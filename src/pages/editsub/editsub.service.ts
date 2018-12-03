@@ -9,7 +9,7 @@ export class EditSubService{
 
   }
   getEditModuleList(shopCode){
-    this.editModuleList=JSON.parse(JSON.stringify(this.moduleConfigService.modelJson))
+    this.editModuleList=(this.moduleConfigService.modelJson).slice(0)
     this.http.getShopInfo(shopCode).then(data => {
       console.log(data)
     }).catch(err => {

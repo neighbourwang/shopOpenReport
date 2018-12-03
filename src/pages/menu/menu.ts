@@ -76,13 +76,12 @@ export class MenuPage {
         module.isActive = !module.isActive;
       }
     })
-    if (!module.children) {
+    if (!module.children||fatherModule.id=='0801'||module.id=='0801') {
       this.closeMenu();
       return
     };
     this.subModulelist = module.children;
     this.activeModuleList = module.children;
-
     this.moduleConfigService.initNagtive(module.children, 'nagtive');
   }
   cardClick(module) {
@@ -175,7 +174,7 @@ export class MenuPage {
     console.log(this.moduleconfigList[11]['pictureCount'])
     let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
     const options = {
-      quality: 50,
+      quality: 10,
       sourceType: type,
       // allowEdit:true,
       destinationType: 0,
@@ -250,6 +249,8 @@ export class MenuPage {
           handler: () => {
             console.log('Archive clicked');
             _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
+            console.log(this.moduleconfigList)
+            _self.clearhardWareList();
             _self.navCtrl.pop();
           }
         }, {
@@ -331,35 +332,40 @@ export class MenuPage {
     console.log(this.shopInfo)
     this.http.saveModule(this.shopInfo).then(data => {
       console.log(data)
-      const alert = this.alertCtrl.create({
-        title: '提示',
-        subTitle: '保存成功',
-        buttons: [
-          {
-            text: 'Save',
-            handler: data => {
-              // console.log('Saved clicked');
-            _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
-            _self.navCtrl.pop();
+      if(data&&data['code']==200){
+        const alert = this.alertCtrl.create({
+          title: '提示',
+          subTitle: '保存成功',
+          buttons: [
+            {
+              text: 'Save',
+              handler: data => {
+                // console.log('Saved clicked');
+              _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
+              _self.clearhardWareList();
+              _self.navCtrl.pop();
+              }
             }
-          }
-        ]
-      });
-      alert.present();
+          ]
+        });
+        alert.present();
+      }else{
+        const alert = this.alertCtrl.create({
+          // title: '提示',
+          subTitle: data['message'],
+          buttons: [
+            {
+              text: '确认',
+              handler: data => {
+               
+              }
+            }
+          ]
+        });
+        alert.present();
+      }
     }).catch(err=>{
-      const alert = this.alertCtrl.create({
-        // title: '提示',
-        subTitle: '保存失败',
-        buttons: [
-          {
-            text: '确认',
-            handler: data => {
-             
-            }
-          }
-        ]
-      });
-      alert.present();
+      
     })
   }
   returnLajiBackend(module) {
@@ -436,4 +442,12 @@ export class MenuPage {
     })
   }
   //递归判定是 for完成
+  //硬件列表清空
+  clearhardWareList(){
+    this.moduleconfigList.forEach(module=>{
+      if(module.id=='08'){
+        module.children[0].children=undefined;
+      }
+    })
+  }
 }

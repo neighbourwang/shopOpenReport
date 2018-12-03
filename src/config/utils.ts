@@ -1,16 +1,11 @@
-const clone = function (sourceObj) {
-  let obj: any;
-  // console.log()
-  for (let attr in sourceObj) {
-    // if(sourceObj instanceof Array){
-
-    // }
-    if (typeof (sourceObj) == "object") {
-      obj[attr] = clone(sourceObj[attr])
-    } else {
-      obj[attr] = sourceObj[attr]
-    }
-  }
-  return obj;
+const clone = function (obj) {
+  if(typeof obj != 'object'){
+    return obj;
+}
+var newobj = {};
+for ( var attr in obj) {
+    newobj[attr] = clone(obj[attr]);
+}
+return newobj;
 }
 export { clone }
