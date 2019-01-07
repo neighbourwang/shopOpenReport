@@ -28,12 +28,13 @@ export class EditPage {
 
   }
   ngOnInit() {
-    const loader = this.loadingCtrl.create({
-      content: "Please wait...",
-    });
-    loader.present();
+    
     console.log(this.moduleConfigService.modelJson)
     if (!this.moduleConfigService.modelJson) {
+      const loader = this.loadingCtrl.create({
+        content: "Please wait...",
+      });
+      loader.present();
       this.moduleConfigService.getInitConfig('kfc').then(data => {
         console.log(data)
         loader.dismiss();

@@ -1,6 +1,6 @@
 import { wyHttpService } from './http.service'
 import { Injectable } from '@angular/core'
-import { clone } from './utils'
+import { deepClone } from './utils'
 @Injectable()
 export class ModuleConfigService {
     // module
@@ -844,10 +844,10 @@ export class ModuleConfigService {
             console.log(data)
             if(data.code==200&&data.data){
                 this.moduleConfiglist=data.data;
-                this.modelJson=(data.data).slice(0) 
+                this.modelJson=data.data
                 console.log(this.modelJson)
                 this.initNagtive(this.moduleConfiglist,'init');
-                return Promise.resolve(this.moduleConfiglist)
+                return Promise.resolve(deepClone(this.moduleConfiglist))
             }else{
                 return Promise.reject('获取配置错误')                
             }
@@ -914,9 +914,24 @@ export class ModuleConfigService {
     getHardWareList(){
         return this.http.getHardwareList().then(data=>{
             if(data['code']==200&&data['data']){
-              this.hardWareList=data['data'].slice(0)
+              this.hardWareList=data['data']
             }
         })
     }
+
 }
+// function deepClone(source){
+//     const targetObj = source.constructor === Array ? [] : {}; // 判断复制的目标是数组还是对象
+//     for(let keys in source){ // 遍历目标
+//       if(source.hasOwnProperty(keys)){
+//         if(source[keys] && typeof source[keys] === 'object'){ // 如果值是对象，就递归一下
+//           targetObj[keys] = source[keys].constructor === Array ? [] : {};
+//           targetObj[keys] = deepClone(source[keys]);
+//         }else{ // 如果不是，就直接赋值
+//           targetObj[keys] = source[keys];
+//         }
+//       }
+//     }
+//     return targetObj;
+//   }
 

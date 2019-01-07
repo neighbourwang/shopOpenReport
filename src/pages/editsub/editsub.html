@@ -55,7 +55,7 @@
         </ion-item>
         <ion-item *ngIf="module.type=='text'">
           <ion-label fixed>{{module.displayName}}</ion-label>
-          <ion-input type="text" [(ngModel)]="module.value[0]" [readonly]="module.id=='0103'" (ngModelChange)="valueChange(module)" value=""></ion-input>
+          <ion-input type="text" [(ngModel)]="module.value[0]" [readonly]="module.id=='0103'||module.id=='0401'" (ngModelChange)="valueChange(module)" value=""></ion-input>
         </ion-item>
         <ion-item *ngIf="module.type=='readonly'">
           <ion-label fixed>{{module.displayName}}</ion-label>
@@ -85,14 +85,14 @@
             </ion-item>
       </div>
       <ion-item-group *ngIf="module.id=='0801'">
-          <ion-item-divider color="light"  (click)="addhardware($event,module)">
+          <ion-item-divider color="light"  >
               <ion-label>{{module.displayName}}</ion-label>
-              <ion-icon name="add" item-end></ion-icon>
+              <ion-icon name="add" item-end (click)="addhardware($event,module)"></ion-icon>
           </ion-item-divider>
           <!-- <ion-item (click)="itemModule(module)">{{module.displayName}}</ion-item> -->
           <ion-item *ngFor="let subModule of module.children" (click)="itemModule(module)">
               <ion-label>{{subModule.displayName}}</ion-label>
-              <ion-select [(ngModel)]="subModule.value" multiple="true">
+              <ion-select [(ngModel)]="subModule.value" multiple="true" (ngModelChange)="selectValueChange(module)">
                 <ion-option *ngFor="let option of subModule.selectList.list">{{option}}</ion-option>
               </ion-select>
           </ion-item>

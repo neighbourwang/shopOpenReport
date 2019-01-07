@@ -131,7 +131,7 @@ export class EditSubPage {
           {
             text: '确认',
             handler: data => {
-              this.fileAction(module)
+              this.fileAction(module,count.count)
             }
           },
           {
@@ -143,33 +143,10 @@ export class EditSubPage {
       });
       alert.present();
     }else{
-      this.fileAction(module)      
+      this.fileAction(module,count)      
     }
   }
-  fileAction(module) {
-    let cover=true;
-    let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
-    if(module.value.length==count.count){
-      const alert = this.alertCtrl.create({
-        // title: '提示',
-        subTitle: `最多上传${count.count}张图片，是否覆盖图片`,
-        buttons: [
-          {
-            text: '确认',
-            handler: data => {
-            }
-          },
-          {
-            text: '取消',
-            handler: data => {
-              cover=false;
-            }
-          }
-        ]
-      });
-      alert.present();
-    }
-    if(!cover) return;
+  fileAction(module,count) {
     const actionSheet = this.actionSheetCtrl.create({
       // title: 'Modify your album',
       buttons: [
@@ -186,7 +163,20 @@ export class EditSubPage {
             console.log('Archive clicked');
             this.takePicture(module, 0)
           }
-        }, {
+        },
+        {
+          text: '无此设备',
+          role: '无此设备',
+          handler: () => {
+            console.log('无此设备');
+            if(module.value.length<count){
+              module.value.push('无此设备')
+            }else{
+              module.value[count-1]='无此设备'
+            }
+          }
+        },
+         {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
@@ -203,7 +193,7 @@ export class EditSubPage {
     const options = {
       quality: 10,
       sourceType: type,
-      // allowEdit:true,
+      allowEdit:true,
       destinationType: 0,
       encodingType: 0,
       saveToPhotoAlbum: true,
@@ -408,7 +398,7 @@ export class EditSubPage {
   addhardware(e,module) {
     console.log(module)
     // this.hardwareList=
-    let popover = this.popoverCtrl.create(HardwarePage,{'hardware':module});
+    let popover = this.popoverCtrl.create(HardwarePage,{'hardware':module,'moduleConfigList':this.moduleconfigList});
     popover.present({
       ev: e
     });
@@ -444,6 +434,34 @@ export class EditSubPage {
         this.valueCheck(module.children)
       }else{
 
+      }
+    })
+  }
+  selectValueChange(m){
+    console.log('mm',m)
+    if(!m.children){
+      m.children=[];
+      m.finish=false;
+      return;
+    }
+    if(m.children.length==0){
+      m.finish=false;
+      return;
+    }
+    for(let i=0;i<m.children.length;i++){
+      if(m.children[i].value.length>0){
+        m.children[i].finish=true;
+      }
+    }
+    m.finish=true;    
+    for(let i=0;i<m.children.length;i++){
+      if(!m.children[i].finish){
+        m.finish=false;
+      }
+    }
+    this.moduleconfigList.forEach(module=>{
+      if(module.id=='08'){
+        module.finish=m.finish;        
       }
     })
   }

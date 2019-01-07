@@ -39,6 +39,7 @@ export class MenuPage {
   ngOnInit() {
     this.moduleconfigList = this.moduleConfigService.getModuleConfig();
     console.log(this.moduleconfigList)
+    console.log(this.moduleConfigService.modelJson)
     this.tab1Click(this.moduleconfigList[0])
     this.endModule = this.moduleconfigList[0].children[0];
     this.activeModuleList = this.moduleconfigList;
@@ -126,7 +127,7 @@ export class MenuPage {
           {
             text: '确认',
             handler: data => {
-              this.fileAction(module)
+              this.fileAction(module,count.count)
             }
           },
           {
@@ -138,10 +139,10 @@ export class MenuPage {
       });
       alert.present();
     }else{
-      this.fileAction(module)      
+      this.fileAction(module,count.count)      
     }
   }
-  fileAction(module) {    
+  fileAction(module,count) {    
     const actionSheet = this.actionSheetCtrl.create({
       // title: 'Modify your album',
       buttons: [
@@ -158,7 +159,20 @@ export class MenuPage {
             console.log('Archive clicked');
             this.takePicture(module, 0)
           }
-        }, {
+        },
+        {
+          text: '无此设备',
+          role: '无此设备',
+          handler: () => {
+            console.log('无此设备');
+            if(module.value.length<count){
+              module.value.push('无此设备')
+            }else{
+              module.value[count-1]='无此设备'
+            }
+          }
+        },
+         {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
@@ -176,7 +190,7 @@ export class MenuPage {
     const options = {
       quality: 10,
       sourceType: type,
-      // allowEdit:true,
+      allowEdit:true,
       destinationType: 0,
       encodingType: 0,
       saveToPhotoAlbum: true,
@@ -402,7 +416,7 @@ export class MenuPage {
   addhardware(e,module) {
     console.log(module)
     // this.hardwareList=
-    let popover = this.popoverCtrl.create(HardwarePage,{'hardware':module});
+    let popover = this.popoverCtrl.create(HardwarePage,{'hardware':module,'moduleConfigList':this.moduleconfigList});
     popover.present({
       ev: e
     });
@@ -422,6 +436,19 @@ export class MenuPage {
       v.finish=true;
     }else{
       v.finish=false;
+    }
+    if(v.id=='0103'){
+      console.log(v)
+      this.moduleconfigList.forEach(module=>{
+        if(module.id=='04'){
+          module.children.forEach(child=>{
+            if(child.id=='0401'){
+              console.log(child)
+              child.value=v.value;
+            }
+          })
+        }
+      })
     }
     this.valueCheck(this.moduleconfigList)
   }
@@ -449,5 +476,36 @@ export class MenuPage {
         module.children[0].children=undefined;
       }
     })
+  }
+  selectValueChange(m){
+    console.log('mm',m)
+    if(!m.children){
+      m.children=[];
+      m.finish=false;
+      return;
+    }
+    if(m.children.length==0){
+      m.finish=false;
+      return;
+    }
+    for(let i=0;i<m.children.length;i++){
+      if(m.children[i].value.length>0){
+        m.children[i].finish=true;
+      }
+    }
+    m.finish=true;    
+    for(let i=0;i<m.children.length;i++){
+      if(!m.children[i].finish){
+        m.finish=false;
+      }
+    }
+    this.moduleconfigList.forEach(module=>{
+      if(module.id=='08'){
+        module.finish=m.finish;        
+      }
+    })
+  }
+  swipeEvent(e){
+    console.log('swip',e)
   }
 }
