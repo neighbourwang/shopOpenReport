@@ -123,6 +123,7 @@ export class EditSubPage {
   }
   fileCountCheck(module){
     let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
+    console.log(count)
     if(module.value.length==count.count){
       const alert = this.alertCtrl.create({
         // title: '提示',
@@ -168,11 +169,11 @@ export class EditSubPage {
           text: '无此设备',
           role: '无此设备',
           handler: () => {
-            console.log('无此设备');
-            if(module.value.length<count){
+            console.log('无此设备',count);
+            if(module.value.length<count.count){
               module.value.push('无此设备')
             }else{
-              module.value[count-1]='无此设备'
+              module.value[count.count-1]='无此设备'
             }
           }
         },

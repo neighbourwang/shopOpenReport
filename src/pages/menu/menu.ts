@@ -102,6 +102,8 @@ export class MenuPage {
     }
   }
   itemModule(module) {
+    console.log(module)
+    
     if (module.children) {
       this.activeModuleList = module.children;
     } else {

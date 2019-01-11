@@ -70,7 +70,8 @@
               <!-- <ion-icon name="rose" item-end></ion-icon> -->
               <!-- <img src="./assets/imgs/kfc.jpg" alt="" class="thumbnail"> -->
               <span *ngFor="let value of module.value">
-                <img [src]="value"  alt="" class="thumbnail"> 
+                <span *ngIf="module.value[0]=='无此设备'">无此设备</span>
+                <img *ngIf="module.value[0]!='无此设备'" [src]="value"  alt="" class="thumbnail"> 
               </span>
             </ion-item>
             <ion-item *ngIf="module.type=='hardware'" (click)="addhardware($event,module)">
@@ -87,13 +88,13 @@
               </ion-item>
         </div>
         <ion-item-group *ngIf="module.id=='0801'">
-            <ion-item-divider color="light"  >
+            <ion-item-divider color="light" >
                 <ion-label>{{module.displayName}}</ion-label>
                 <ion-icon name="add" item-end (click)="addhardware($event,module)"></ion-icon>
             </ion-item-divider>
             <!-- <ion-item (click)="itemModule(module)">{{module.displayName}}</ion-item> -->
-            <ion-item *ngFor="let subModule of module.children" (click)="itemModule(module)">
-                <ion-label (swipe)="swipeEvent($event)">{{subModule.displayName}}</ion-label>
+            <ion-item *ngFor="let subModule of module.children"  (swipe)="swipeEvent($event)">
+                <ion-label >{{subModule.displayName}}</ion-label>
                 <ion-select [(ngModel)]="subModule.value" multiple="true" (ngModelChange)="selectValueChange(module)">
                   <ion-option *ngFor="let option of subModule.selectList.list">{{option}}</ion-option>
                 </ion-select>
