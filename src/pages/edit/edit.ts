@@ -23,12 +23,12 @@ import { LoadedModule } from 'ionic-angular/util/module-loader';
 export class EditPage {
   shouldShowCancel = true;
   shopCode = ''
+  shopItems=[]
   constructor(public navCtrl: NavController, private moduleConfigService: ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
     private http: wyHttpService, public popoverCtrl: PopoverController, private editservice: EditService,public loadingCtrl:LoadingController) {
 
   }
   ngOnInit() {
-    
     console.log(this.moduleConfigService.modelJson)
     if (!this.moduleConfigService.modelJson) {
       const loader = this.loadingCtrl.create({
@@ -45,19 +45,30 @@ export class EditPage {
       });
     }
   }
+  ionViewDidEnter() {
+    console.log('ssseditinit')
+    this.getShopList()
+   }
+   getShopList(){
+    this.http.getShopList().then(data=>{
+      console.log(data)
+      this.shopItems=data['data'];
+    }).catch(err=>{
+      console.log(err.message)
+    })
+   }
   onInput(ev: any) {
     // Reset items back to all of the items
     // this.initializeItems();
-
     // set val to the value of the searchbar
     const val = ev.target.value;
 
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
-      // this.items = this.items.filter((item) => {
-      //   return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      // })
-
+      this.shopItems = this.shopItems.filter((item) => {
+        console.log(item.shopCode)
+        return (item.shopCode.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
     }
   }
   onCancel = (e) => {
@@ -135,5 +146,20 @@ export class EditPage {
         })
       }
     }
+  }
+  goShop(item){
+    console.log(item)
+    this.editservice.getEditModuleList(item.shopCode).then(data => {
+      console.log(this.editservice.editModuleList)
+      this.navCtrl.push(EditSubPage, { editModuleList: this.editservice.editModuleList })
+    }).catch(error => {
+      console.log(error)
+      const alert = this.alertCtrl.create({
+        title: '提示',
+        subTitle: error,
+        buttons: ['OK']
+      });
+      alert.present();
+    })
   }
 }

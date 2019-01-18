@@ -18,4 +18,9 @@
   <ion-searchbar [(ngModel)]="shopCode" placeholder="新店代码" [showCancelButton]="true" [cancelButtonText]="'cancel'"
   (ionInput)="onInput($event)"
   (ionCancel)="onCancel($event)" (keyup)="keyUp($event)"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let item of shopItems" (click)="goShop(item)">
+      {{ item.shopCode }}
+    </ion-item>
+  </ion-list>
 </ion-content>

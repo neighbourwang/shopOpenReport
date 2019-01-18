@@ -10,6 +10,8 @@ import { AlertController } from 'ionic-angular';
 import { wyHttpService } from '../../config/http.service'
 import { PopoverController } from 'ionic-angular';
 import { HardwarePage } from '../../conponents/hardwarePage'
+import { DemoPage } from '../demos/demo'
+import { ModalController } from 'ionic-angular';
 // import { SelectValuePipe } from '../../config/selectValue.pipe'
 @Component({
   templateUrl: 'menu.html'
@@ -33,7 +35,7 @@ export class MenuPage {
   valueContent = [];
   hardWareList = [];
   constructor(public navCtrl: NavController, private moduleConfigService: ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
-    private http: wyHttpService,public popoverCtrl: PopoverController) {
+    private http: wyHttpService,public popoverCtrl: PopoverController,public modalCtrl: ModalController) {
 
   }
   ngOnInit() {
@@ -43,7 +45,7 @@ export class MenuPage {
     this.tab1Click(this.moduleconfigList[0])
     this.endModule = this.moduleconfigList[0].children[0];
     this.activeModuleList = this.moduleconfigList;
-    // this.showRadio();
+    // this.showRadio();moduleConfigService
     this.getHardWareList();
   }
 
@@ -120,6 +122,9 @@ export class MenuPage {
     this.menuCtrl.close();
   }
   fileCountCheck(module){
+    console.log(module)
+    // const modal = this.modalCtrl.create(DemoPage,{},);
+    // modal.present();
     let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
     if(module.value.length==count.count){
       const alert = this.alertCtrl.create({
@@ -455,6 +460,7 @@ export class MenuPage {
     this.valueCheck(this.moduleconfigList)
   }
   valueCheck(v){
+    
     v.forEach(module=>{
       if(module.children){
         this.valueCheck(module.children)

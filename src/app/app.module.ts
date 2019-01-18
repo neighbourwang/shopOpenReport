@@ -11,6 +11,7 @@ import { SearchPage } from '../pages/search/search';
 import { EditPage } from '../pages/edit/edit';
 import { EditSubPage } from '../pages/editsub/editsub';
 import { SettingPage } from '../pages/setting/setting';
+import { DemoPage } from '../pages/demos/demo';
 import { TabsTextPage } from '../pages/tabs/tabs';
 import { HttpClientModule }    from '@angular/common/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -36,7 +37,8 @@ import { FileOpener } from '@ionic-native/file-opener';
     HardwarePage,
     EditPage,
     EditSubPage,
-    SearchPage
+    SearchPage,
+    DemoPage 
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ import { FileOpener } from '@ionic-native/file-opener';
     HardwarePage,
     EditPage,
     EditSubPage,    
-    SearchPage
+    SearchPage,
+    DemoPage 
   ],
   providers: [
     StatusBar,
