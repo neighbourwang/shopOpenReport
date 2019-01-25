@@ -35,7 +35,7 @@ export class MenuPage {
   valueContent = [];
   hardWareList = [];
   constructor(public navCtrl: NavController, private moduleConfigService: ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
-    private http: wyHttpService,public popoverCtrl: PopoverController,public modalCtrl: ModalController) {
+    private http: wyHttpService, public popoverCtrl: PopoverController, public modalCtrl: ModalController) {
 
   }
   ngOnInit() {
@@ -79,7 +79,7 @@ export class MenuPage {
         module.isActive = !module.isActive;
       }
     })
-    if (!module.children||fatherModule.id=='0801'||module.id=='0801') {
+    if (!module.children || fatherModule.id == '0801' || module.id == '0801') {
       this.closeMenu();
       return
     };
@@ -105,7 +105,7 @@ export class MenuPage {
   }
   itemModule(module) {
     console.log(module)
-    
+
     if (module.children) {
       this.activeModuleList = module.children;
     } else {
@@ -121,12 +121,12 @@ export class MenuPage {
   closeMenu() {
     this.menuCtrl.close();
   }
-  fileCountCheck(module){
+  fileCountCheck(module) {
     console.log(module)
     // const modal = this.modalCtrl.create(DemoPage,{},);
     // modal.present();
-    let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
-    if(module.value.length==count.count){
+    let count = this.moduleconfigList[11]['pictureCount'].filter(count => count.id == module.id)[0]
+    if (module.value.length == count.count) {
       const alert = this.alertCtrl.create({
         // title: '提示',
         subTitle: `最多上传${count.count}张图片，是否覆盖图片`,
@@ -134,7 +134,7 @@ export class MenuPage {
           {
             text: '确认',
             handler: data => {
-              this.fileAction(module,count.count)
+              this.fileAction(module, count.count)
             }
           },
           {
@@ -145,11 +145,11 @@ export class MenuPage {
         ]
       });
       alert.present();
-    }else{
-      this.fileAction(module,count.count)      
+    } else {
+      this.fileAction(module, count.count)
     }
   }
-  fileAction(module,count) {    
+  fileAction(module, count) {
     const actionSheet = this.actionSheetCtrl.create({
       // title: 'Modify your album',
       buttons: [
@@ -172,14 +172,14 @@ export class MenuPage {
           role: '无此设备',
           handler: () => {
             console.log('无此设备');
-            if(module.value.length<count){
+            if (module.value.length < count) {
               module.value.push('无此设备')
-            }else{
-              module.value[count-1]='无此设备'
+            } else {
+              module.value[count - 1] = '无此设备'
             }
           }
         },
-         {
+        {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
@@ -191,13 +191,13 @@ export class MenuPage {
     actionSheet.present();
   }
   takePicture(module, type) {
-    let _self=this;
+    let _self = this;
     console.log(this.moduleconfigList[11]['pictureCount'])
-    let count=this.moduleconfigList[11]['pictureCount'].filter(count=>count.id==module.id)[0]
+    let count = this.moduleconfigList[11]['pictureCount'].filter(count => count.id == module.id)[0]
     const options = {
       quality: 10,
       sourceType: type,
-      allowEdit:true,
+      allowEdit: true,
       destinationType: 0,
       encodingType: 0,
       saveToPhotoAlbum: true,
@@ -209,10 +209,10 @@ export class MenuPage {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       // console.log('ok', base64Image)
       // console.log(base64Image.slice(11))
-      if(module.value.length<count.count){
+      if (module.value.length < count.count) {
         module.value.push(base64Image)
-      }else{
-        module.value[count.count-1]=base64Image
+      } else {
+        module.value[count.count - 1] = base64Image
       }
       _self.valueChange(module)
     }, (err) => {
@@ -269,7 +269,7 @@ export class MenuPage {
           text: '返回',
           handler: () => {
             console.log('Archive clicked');
-            _self.moduleConfigService.initNagtive(this.moduleconfigList,'init')
+            _self.moduleConfigService.initNagtive(this.moduleconfigList, 'init')
             console.log(this.moduleconfigList)
             _self.clearhardWareList();
             _self.navCtrl.pop();
@@ -292,66 +292,45 @@ export class MenuPage {
     let valueList = this.moduleconfigList[length - 1]['selectedValue'].filter(element => element.id == id)[0]['list'];
     return valueList ? valueList : [];
   }
-  saveModule() {
-    let _self=this;
+  async saveModule() {
+    let _self = this;
     console.log(this.moduleconfigList)
     this.moduleconfigList.forEach(module => {
       //新店代码
-      if(module.id=='01'){
+      if (module.id == '01') {
         module.children.forEach(child => {
-          if (child.id=='0103') {
+          if (child.id == '0103') {
             this.shopInfo.shopCode = child.value[0]
-          } 
+          }
         })
       }
-      //新店基本信息
-      // if (module.id=='04') {
-      //   console.log(module)
-      //   module.children.forEach(child => {
-      //     if (child.id=='0402') {
-      //       this.shopInfo.shopName = child.value[0]
-      //     } else if (child.id=='0404') {
-      //       this.shopInfo.shopBrand = child.value[0]
-      //     }
-      //   })
-      // }
-      //版本
-      // if (module.id=='02') {
-      //   this.shopInfo.shopVersion = module.children[0].value[0]
-      // }
     })
-    // console.log(this.shopInfo)
-    // for (let attr in this.shopInfo) {
-    //   console.log(attr)
-    //   if (!this.shopInfo[attr]) {
-    //     alert(attr)
-    //     return;
-    //   }
-    // }
-    if(!this.shopInfo.shopCode){
+    if (!this.shopInfo.shopCode) {
       alert('请输入新店代码')
       return;
     }
     this.pingPu(this.moduleconfigList)
     console.log(this.valueContent)
     this.moduleconfigList.forEach(module => {
-      // module.id==
-      let moduleContent = [];
-      this.valueContent.forEach(value => {
-        // console.log(value.id.slice(0,2))
-        if (module.id == value.id.slice(0, 2)) {
-          moduleContent.push(value)
-        }
-      })
-      if (module.id) {
-        this.shopInfo.shopContent.push({
-          id: module.id,
-          content: moduleContent
+      if (module.id && module.id != '0801') {
+        let moduleContent = [];
+        this.valueContent.forEach(value => {
+          if (module.id == value.id.slice(0, 2)) {
+            moduleContent.push(value)
+          }
         })
+        if (module.id) {
+          this.shopInfo.shopContent.push({
+            id: module.id,
+            content: moduleContent
+          })
+        }
       }
     })
     console.log(this.shopInfo)
-    this.http.saveModule(this.shopInfo).then(data => {
+    
+    await this.http.saveModule(this.shopInfo)
+    await this.savehardware().then(data => {
       console.log(data)
       if(data&&data['code']==200){
         const alert = this.alertCtrl.create({
@@ -378,7 +357,7 @@ export class MenuPage {
             {
               text: '确认',
               handler: data => {
-               
+
               }
             }
           ]
@@ -386,26 +365,12 @@ export class MenuPage {
         alert.present();
       }
     }).catch(err=>{
-      
+
     })
-  }
-  returnLajiBackend(module) {
-    let content = [];
-    if (!module.children) {
-      // return {
-      //   id:module.id,
-      //   type:module.type,
-      //   value:module.value,
-      //   docType:""
-      // }
-    } else {
-
-    }
-
   }
   pingPu(children) {
     children.forEach((module) => {
-      if (module.id) {
+      if (module.id &&module.id != '08') {
         if (!module['children']) {
           // console.log(module)
           this.valueContent.push({
@@ -417,41 +382,65 @@ export class MenuPage {
         } else {
           this.pingPu(module.children)
         }
+      }else if(module.id == '08'){
+        console.log(module)
       }
     })
   }
-  addhardware(e,module) {
+  addhardware(e, module) {
     console.log(module)
     // this.hardwareList=
-    let popover = this.popoverCtrl.create(HardwarePage,{'hardware':module,'moduleConfigList':this.moduleconfigList});
+    let popover = this.popoverCtrl.create(HardwarePage, { 'hardware': module, 'moduleConfigList': this.moduleconfigList });
     popover.present({
       ev: e
     });
   }
   getHardWareList() {
-    if(this.moduleConfigService.hardWareList.length==0){
-      this.moduleConfigService.getHardWareList().then(()=>{
-        this.hardWareList=this.moduleConfigService.hardWareList;
+    if (this.moduleConfigService.hardWareList.length == 0) {
+      this.moduleConfigService.getHardWareList().then(() => {
+        this.hardWareList = this.moduleConfigService.hardWareList;
       })
-    }else{
-      this.hardWareList=this.moduleConfigService.hardWareList;      
+    } else {
+      this.hardWareList = this.moduleConfigService.hardWareList;
     }
   }
-  valueChange(v){
-    console.log(v)
-    if(v.value.length>0&&v.value[0]){
-      v.finish=true;
-    }else{
-      v.finish=false;
+  async savehardware(){
+    let module=this.moduleconfigList.find(mdoule=>mdoule.id=='08');
+    if(module.children[0].children.length==0){
+      return
     }
-    if(v.id=='0103'){
-      console.log(v)
-      this.moduleconfigList.forEach(module=>{
-        if(module.id=='04'){
-          module.children.forEach(child=>{
-            if(child.id=='0401'){
-              console.log(child)
-              child.value=v.value;
+    let hardwarecontent={
+      id:'0801',
+      content:[]
+    }
+    module.children[0].children.forEach(hard=>{
+      hardwarecontent.content.push({
+        id:hard.id,
+        subId:'+'+hard.subId,
+        value:hard.value
+      })
+    })
+    console.log(hardwarecontent)
+    return this.http.addhardware({
+      shopcode:this.shopInfo.shopCode,
+      content:hardwarecontent
+    })
+  }
+  valueChange(v) {
+    // console.log(v)
+    if (v.value.length > 0 && v.value[0]) {
+      v.finish = true;
+    } else {
+      v.finish = false;
+    }
+    if (v.id == '0103') {
+      // console.log(v)
+      this.moduleconfigList.forEach(module => {
+        if (module.id == '04') {
+          module.children.forEach(child => {
+            if (child.id == '0401') {
+              // console.log(child)
+              child.value = v.value;
             }
           })
         }
@@ -459,61 +448,65 @@ export class MenuPage {
     }
     this.valueCheck(this.moduleconfigList)
   }
-  valueCheck(v){
-    
-    v.forEach(module=>{
-      if(module.children){
+  valueCheck(v) {
+    v.forEach(module => {
+      if (module.children) {
         this.valueCheck(module.children)
-        module.finish=true;
-        module.children.forEach(child=>{
-          if(!child.finish){
-            module.finish=false;
+        module.finish = true;
+        module.children.forEach(child => {
+          if (!child.finish) {
+            module.finish = false;
           }
         })
         this.valueCheck(module.children)
-      }else{
+      } else {
 
       }
     })
   }
   //递归判定是 for完成
   //硬件列表清空
-  clearhardWareList(){
-    this.moduleconfigList.forEach(module=>{
-      if(module.id=='08'){
-        module.children[0].children=undefined;
+  clearhardWareList() {
+    this.moduleconfigList.forEach(module => {
+      if (module.id == '08') {
+        module.children[0].children = undefined;
       }
     })
   }
-  selectValueChange(m){
-    console.log('mm',m)
-    if(!m.children){
-      m.children=[];
-      m.finish=false;
+  selectValueChange(m) {
+    console.log('mm', m)
+    if (!m.children) {
+      m.children = [];
+      m.finish = false;
       return;
     }
-    if(m.children.length==0){
-      m.finish=false;
+    if (m.children.length == 0) {
+      m.finish = false;
       return;
     }
-    for(let i=0;i<m.children.length;i++){
-      if(m.children[i].value.length>0){
-        m.children[i].finish=true;
+    for (let i = 0; i < m.children.length; i++) {
+      if (m.children[i].value.length > 0) {
+        m.children[i].finish = true;
       }
     }
-    m.finish=true;    
-    for(let i=0;i<m.children.length;i++){
-      if(!m.children[i].finish){
-        m.finish=false;
+    m.finish = true;
+    for (let i = 0; i < m.children.length; i++) {
+      if (!m.children[i].finish) {
+        m.finish = false;
       }
     }
-    this.moduleconfigList.forEach(module=>{
-      if(module.id=='08'){
-        module.finish=m.finish;        
+    this.moduleconfigList.forEach(module => {
+      if (module.id == '08') {
+        module.finish = m.finish;
       }
     })
   }
-  swipeEvent(e){
-    console.log('swip',e)
+  delete(module, subModule) {
+    console.log('swip', module, subModule)
+    let map = module.children.map(m => m.cId)
+    console.log(map)
+    let index = map.indexOf(subModule.cId)
+    console.log(index)
+    module.children.splice(index, 1)
   }
 }

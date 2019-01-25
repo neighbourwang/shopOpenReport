@@ -11,6 +11,7 @@ import { wyHttpService } from '../../config/http.service'
 import { PopoverController } from 'ionic-angular';
 import { HardwarePage } from '../../conponents/hardwarePage'
 import { EditSubService } from './editsub.service'
+import { updateDate } from 'ionic-angular/util/datetime-util';
 // import { SelectValuePipe } from '../../config/selectValue.pipe'
 @Component({
   templateUrl: 'editsub.html',
@@ -34,14 +35,17 @@ export class EditSubPage {
   };
   valueContent = [];
   hardWareList = [];
+  hardwareData=null
   constructor(public navCtrl: NavController,private navParams:NavParams,private moduleConfigService:ModuleConfigService, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, private camera: Camera, public alertCtrl: AlertController,
     private http: wyHttpService,public popoverCtrl: PopoverController,editsubservice:EditSubService) {
 
   }
   ngOnInit() {
     console.log(this.navParams.data.editModuleList)
-    
+    //商店信息
     this.moduleconfigList = this.navParams.data.editModuleList;
+    //商店硬件信息
+    this.hardwareData = this.navParams.data.hardwareData;
     // this.tab1Click(this.moduleconfigList[0])
     this.endModule = this.moduleconfigList[0].children[0];
     this.activeModuleList = this.moduleconfigList;
@@ -287,7 +291,7 @@ export class EditSubPage {
     let valueList = this.moduleconfigList[length - 1]['selectedValue'].filter(element => element.id == id)[0]['list'];
     return valueList ? valueList : [];
   }
-  updateModule() {
+  async updateModule() {
     let _self=this;
     console.log(this.moduleconfigList)
     this.moduleconfigList.forEach(module => {
@@ -299,30 +303,9 @@ export class EditSubPage {
           } 
         })
       }
-      //新店基本信息
-      // if (module.id=='04') {
-      //   console.log(module)
-      //   module.children.forEach(child => {
-      //     if (child.id=='0402') {
-      //       this.shopInfo.shopName = child.value[0]
-      //     } else if (child.id=='0404') {
-      //       this.shopInfo.shopBrand = child.value[0]
-      //     }
-      //   })
-      // }
-      //版本
-      // if (module.id=='02') {
-      //   this.shopInfo.shopVersion = module.children[0].value[0]
-      // }
+     
     })
-    console.log(this.shopInfo)
-    // for (let attr in this.shopInfo) {
-    //   console.log(attr)
-    //   if (!this.shopInfo[attr]) {
-    //     alert(attr)
-    //     return;
-    //   }
-    // }
+   
     if(!this.shopInfo.shopCode){
       alert('请输入新店代码')
       return;
@@ -346,7 +329,9 @@ export class EditSubPage {
       }
     })
     console.log(this.shopInfo)
-    this.http.updateModule(this.shopInfo).then(data => {
+    // this.updateHardware()
+    await this.http.updateModule(this.shopInfo)
+    await this.updateHardware().then(data => {
       console.log(data)
       const alert = this.alertCtrl.create({
         title: '提示',
@@ -381,7 +366,7 @@ export class EditSubPage {
   }
   pingPu(children) {
     children.forEach((module) => {
-      if (module.id) {
+      if (module.id&&module.id!='08') {
         if (!module['children']) {
           // console.log(module)
           this.valueContent.push({
@@ -412,6 +397,54 @@ export class EditSubPage {
     }else{
       this.hardWareList=this.moduleConfigService.hardWareList;      
     }
+  }
+  //更新硬件列表
+  async updateHardware(){
+    console.log(this.hardwareData)
+    console.log(this.moduleconfigList)
+    let updatehardware={
+      id:'0801',
+      content:[]
+    }
+    this.moduleconfigList.forEach(module=>{
+      if(module.id=='08'){
+        module.children[0].children.forEach(hard=>{
+          let mapCid=this.hardwareData.content.map(d=>d.id+d.subId)
+          console.log(mapCid)
+          //添加
+          if(mapCid.indexOf(hard.cId)<0){
+            updatehardware.content.push(Object.assign({},{
+              id:hard.id,
+              subId:'a'+hard.subId,
+              value:hard.value
+            }))
+          }else{
+          //更新            
+            updatehardware.content.push(Object.assign({},{
+              id:hard.id,
+              subId:hard.subId,
+              value:hard.value
+            }))
+          }
+        })
+        //移除硬件
+        // this.hardwareData.content.forEach(data=>{
+        //   let cIdmap=module.children[0].children.map(m=>m.cId)
+        //   if(cIdmap.indexOf(data.id+data.cId)<0){
+        //     updatehardware.content.push(Object.assign({},{
+        //       id:data.id,
+        //       subId:'r'+data.subId,
+        //       value:[]
+        //     }))
+        //   }
+        // })
+      }
+    })
+    console.log(updatehardware)
+    return this.http.updatahardware({
+      shopcode:this.shopInfo.shopCode,
+      content:updatehardware
+    })
   }
   valueChange(v){
     console.log(v)

@@ -86,6 +86,26 @@ export class wyHttpService {
             console.log(error)
         })
     }
+    //新增硬件
+    addhardware(data){
+        let url = baseUrl + `/openshopreport/hardwarecontent/add`
+        return this.http.post(url, resetParams(data), httpOptions).toPromise().then(data => {
+            console.log(data)
+            return Promise.resolve(data)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+     //新增硬件
+     updatahardware(data){
+        let url = baseUrl + `/openshopreport/hardwarecontent/update`
+        return this.http.post(url, resetParams(data), httpOptions).toPromise().then(data => {
+            console.log(data)
+            return Promise.resolve(data)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
     //获取开店信息
     getShopInfo(code) {
         let data = {

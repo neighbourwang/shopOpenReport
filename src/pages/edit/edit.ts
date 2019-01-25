@@ -151,7 +151,7 @@ export class EditPage {
     console.log(item)
     this.editservice.getEditModuleList(item.shopCode).then(data => {
       console.log(this.editservice.editModuleList)
-      this.navCtrl.push(EditSubPage, { editModuleList: this.editservice.editModuleList })
+      this.navCtrl.push(EditSubPage, { editModuleList: this.editservice.editModuleList,hardwareData:this.editservice.hardwareData })
     }).catch(error => {
       console.log(error)
       const alert = this.alertCtrl.create({

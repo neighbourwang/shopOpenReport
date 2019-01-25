@@ -22,42 +22,30 @@ export class HardwarePage {
     this.hardwareModuleList = (this.moduleConfigService.hardWareList).slice(0);
     console.log(this.navParams)
     console.log('hard', this.hardwareModuleList)
-
     this.hardwareModule = this.navParams.data['hardware']
-    // if(this.hardwareModule.children){
-    //   for(var i=0;i<this.hardwareModuleList.length;i++){
-    //     this.hardwareModule.children.forEach(child=>{
-    //       if(this.hardwareModuleList[i]&&(child.id==this.hardwareModuleList[i].id)){
-    //         console.log(this.hardwareModuleList[i])
-    //         this.hardwareModuleList.splice(i,1)
-    //         i--;
-    //       }
-    //     })
-    //   }
-    // }
-
   }
   close(hardware) {
+    console.log(hardware)
     hardware.value = [];
     if (this.hardwareModule.children) {
-      let obj = Object.assign({}, hardware)
       let mapHardwareChildren = this.hardwareModule.children.filter(hard => hard.displayName == hardware.displayName)
-      console.log(mapHardwareChildren[mapHardwareChildren.length - 1])
+      mapHardwareChildren.sort((a,b)=>a.subId-b.subId)
+      console.log(mapHardwareChildren)
+      //已有同类设备      
       if (mapHardwareChildren.length > 0) {
-        let id = '0' + (Number(mapHardwareChildren[mapHardwareChildren.length - 1].id.slice(0, mapHardwareChildren[mapHardwareChildren.length - 1].id.length)) + 1);
-        obj.id = id
-        console.log(obj)
+      //获取最大subid值
+        let addId=mapHardwareChildren[mapHardwareChildren.length-1].subId;
+        //subid加1
+        addId++
+        let obj = Object.assign({}, hardware,{subId:addId,cId:hardware.id+addId})
         this.hardwareModule.children.push(obj);
       } else {
-        let obj = Object.assign({}, hardware)
-        let id = (hardware.id.slice(0, hardware.id.length))
-        obj.id = id + '0' + 1
-        this.hardwareModule.children.push(obj)
+      //没有同类设备
+      let obj = Object.assign({}, hardware,{subId:0,cId:hardware.id+1})
+      this.hardwareModule.children.push(obj)
       }
     } else {
-      let obj = Object.assign({}, hardware)
-      let id = (hardware.id.slice(0, hardware.id.length))
-      obj.id = id + '0' + 1
+      let obj = Object.assign({}, hardware,{subId:0,cId:hardware.id+1})
       this.hardwareModule.children = [];
       this.hardwareModule.children.push(obj)
     }
@@ -71,5 +59,4 @@ export class HardwarePage {
     console.log(hardware)
     console.log(this.hardwareModule)
   }
-
 }
